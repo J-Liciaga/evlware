@@ -23,8 +23,8 @@
 		"**/*.tsx",
 		"**/*.js",
 		"**/*.jsx",
-		"../../apps/dashboard/.next/types/**/*.ts",
-		"../../dist/apps/dashboard/.next/types/**/*.ts",
+		"../../apps/evlgorgon/.next/types/**/*.ts",
+		"../../dist/apps/evlgorgon/.next/types/**/*.ts",
 		"next-env.d.ts"
 	],
 	"exclude": [

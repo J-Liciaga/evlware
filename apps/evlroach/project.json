@@ -1,15 +1,21 @@
 {
-	"name": "dashboard",
+	"name": "evlroach",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/dashboard",
+	"sourceRoot": "apps/evlroach/src",
 	"projectType": "application",
 	"tags": [],
 	"targets": {
+		"build": {
+			"outputs": [
+				"{workspaceRoot}/dist/apps/appname/base}",
+				"{workspaceRoot}/dist/apps/appname/web}"
+			]
+		},
 		"test": {
 			"executor": "@nx/jest:jest",
 			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
 			"options": {
-				"jestConfig": "apps/dashboard/jest.config.ts"
+				"jestConfig": "apps/evlroach/jest.config.ts"
 			}
 		}
 	}

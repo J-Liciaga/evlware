@@ -20,14 +20,14 @@ evlware/
 ├── .github/                 # Github Actions CI/CD files
 ├── .docker/                 # Dockerfiles files
 ├── .husky/                  # Husky Git hooks
+├── api/                     # Golang backend
 ├── apps/
-    ├── api/                 # FastAPI backend
-    └── dashboard/           # Next.js frontend
+    └── evlroach/            # React-Native mobile app
+    └── evlcarrot/           # Next.js web app
 ├── libs/
     ├── lucky-assets/        # Common UI assets
     ├── lucky-ui/            # UI component library
     ├── toolshed/            # Common UI tools
-    ├── core/                # Shared core functionality
     ├── ml-models/           # PyTorch/TensorFlow models
     ├── netexploit/          # Scapy, Wireshark integrations
     ├── netscout/            # OWASP ZAP, Metasploit integrations
@@ -63,8 +63,11 @@ Remember: With great power comes great responsibility. Use EVLWARE ethically and
 
 ## Tech Stack
 
+> Subject To Change
+
 ### Programming Languages:
 
+- **TypeScript**: For typesafety in UI development
 - **Python**: For its extensive machine learning and data processing libraries
 - **Rus**t: For performance-critical components and system-level operations
 - **Go**: For concurrent and distributed components
@@ -77,13 +80,13 @@ Remember: With great power comes great responsibility. Use EVLWARE ethically and
 
 ### Data Processing:
 
-- Apache Spark: For large-scale data processing
-- Pandas: For data manipulation and analysis
-- Dask: For parallel computing
+- **Apache Spark**: For large-scale data processing
+- **Pandas**: For data manipulation and analysis
+- **Dask**: For parallel computing
 
 ### Web Framework:
 
-- FastAPI: For building high-performance APIs
+- **FastAPI**: For building high-performance APIs
 
 ### Database:
 

@@ -1,0 +1,50 @@
+{
+	"name": "evlgorgon",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/evlgorgon",
+	"projectType": "application",
+	"tags": [],
+	"targets": {
+		"build": {
+			"executor": "@nx/next:build",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"outputPath": "dist/apps/evlgorgon"
+			},
+			"configurations": {
+				"development": {
+					"outputPath": "apps/evlgorgon"
+				},
+				"production": {}
+			}
+		},
+		"serve": {
+			"executor": "@nx/next:server",
+			"defaultConfiguration": "production",
+			"options": {
+				"buildTarget": "evlgorgon:build",
+				"dev": true
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "evlgorgon:build:development",
+					"dev": true
+				}
+			}
+		},
+		"export": {
+			"executor": "@nx/next:export",
+			"options": {
+				"buildTarget": "evlgorgon:build:production"
+			}
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"jestConfig": "apps/evlgorgon/jest.config.ts"
+			}
+		}
+	}
+}
