@@ -1,7 +1,7 @@
 {
-	"name": "reporting",
+	"name": "netscout",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/reportin/src",
+	"sourceRoot": "libs/netscout/src",
 	"projectType": "library",
 	"tags": [],
 	"targets": {}

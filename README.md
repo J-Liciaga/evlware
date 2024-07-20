@@ -29,8 +29,8 @@ evlware/
     ├── toolshed/            # Common UI tools
     ├── core/                # Shared core functionality
     ├── ml-models/           # PyTorch/TensorFlow models
-    ├── network-tools/       # Scapy, Wireshark integrations
-    ├── security-tools/      # OWASP ZAP, Metasploit integrations
+    ├── netexploit/          # Scapy, Wireshark integrations
+    ├── netscout/            # OWASP ZAP, Metasploit integrations
     └── reporting/           # Report generation and visualization
 ├── tools/                   # Custom scripts and utilities
 
