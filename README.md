@@ -23,15 +23,15 @@ evlware/
 ├── api/                     # Golang backend
 ├── apps/
     └── evlroach/            # React-Native mobile app
-    └── evlcarrot/           # Next.js web app
+    └── evlgorgon/           # Next.js web app
 ├── libs/
+    ├── jarvis/              # PyTorch/TensorFlow models
     ├── lucky-assets/        # Common UI assets
     ├── lucky-ui/            # UI component library
-    ├── toolshed/            # Common UI tools
-    ├── ml-models/           # PyTorch/TensorFlow models
     ├── netexploit/          # Scapy, Wireshark integrations
     ├── netscout/            # OWASP ZAP, Metasploit integrations
-    └── reporting/           # Report generation and visualization
+    ├── reporting/           # Report generation and visualization
+    └── toolshed/            # Common UI tools
 ├── tools/                   # Custom scripts and utilities
 
 ```
