@@ -15,7 +15,9 @@ pub enum ScanType {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ScanResult {
+    pub target: String,
     pub vulnerabilities: Vec<Vulnerability>,
+    pub exploit_suggestions: Vec<ExploitSuggestion>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -23,4 +25,11 @@ pub struct Vulnerability {
     pub name: String,
     pub severity: String,
     pub description: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ExploitSuggestion {
+    pub name: String,
+    pub description: String,
+    pub confidence: f32,
 }
