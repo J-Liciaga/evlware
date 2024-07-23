@@ -4,5 +4,31 @@
 	"sourceRoot": "libs/netscout/src",
 	"projectType": "library",
 	"tags": [],
-	"targets": {}
+	"targets": {
+		"run": {
+			"executor": "./tools/executors/rust:rust",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"command": "run",
+				"projectRoot": "libs/netscout",
+				"args": []
+			}
+		},
+		"build": {
+			"executor": "./tools/executors/rust:rust",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"command": "build",
+				"projectRoot": "libs/netscout"
+			}
+		},
+		"test": {
+			"executor": "./tools/executors/rust:rust",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"command": "test",
+				"projectRoot": "libs/netscout"
+			}
+		}
+	}
 }

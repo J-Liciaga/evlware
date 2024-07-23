@@ -1,0 +1,10 @@
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/liblog-8dc858a765b68902.rmeta: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/macros.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/serde.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/__private_api.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/liblog-8dc858a765b68902.rlib: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/macros.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/serde.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/__private_api.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/log-8dc858a765b68902.d: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/macros.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/serde.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/__private_api.rs
+
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/lib.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/macros.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/serde.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/log-0.4.22/src/__private_api.rs:

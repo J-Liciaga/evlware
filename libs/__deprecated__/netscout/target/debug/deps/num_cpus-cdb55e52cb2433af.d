@@ -1,0 +1,7 @@
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libnum_cpus-cdb55e52cb2433af.rmeta: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libnum_cpus-cdb55e52cb2433af.rlib: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/num_cpus-cdb55e52cb2433af.d: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs
+
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs:

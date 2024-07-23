@@ -1,0 +1,20 @@
+{
+	"rustc": 10297157445277311328,
+	"features": "[\"std\"]",
+	"declared_features": "",
+	"target": 16903832911151110546,
+	"profile": 4374887572363265115,
+	"path": 1345002452694294887,
+	"deps": [],
+	"local": [
+		{
+			"CheckDepInfo": {
+				"dep_info": "debug/.fingerprint/byteorder-735c05aa14d4b06f/dep-lib-byteorder"
+			}
+		}
+	],
+	"rustflags": [],
+	"metadata": 5398730104718078656,
+	"config": 2202906307356721367,
+	"compile_kind": 0
+}

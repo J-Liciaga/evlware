@@ -1,0 +1,11 @@
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libsocket2-f401e6ce60ad64af.rmeta: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockaddr.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/socket.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockref.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sys/unix.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libsocket2-f401e6ce60ad64af.rlib: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockaddr.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/socket.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockref.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sys/unix.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/socket2-f401e6ce60ad64af.d: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockaddr.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/socket.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockref.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sys/unix.rs
+
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/lib.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockaddr.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/socket.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sockref.rs:
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.7/src/sys/unix.rs:

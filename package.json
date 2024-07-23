@@ -4,8 +4,11 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
+    "build:netexploit": "nx build netexploit",
+    "build:netscout": "nx build netscout",
     "serve:roach": "nx run-ios evlroach",
     "serve:gorgon": "nx serve evlgorgon",
+    "netscout:cli": "nx run netscout:run",
     "workspace:test-builds": "nx affected -t build",
     "workspace:lint": "nx affected --target lint --parallel 3",
     "workspace:affected": "nx affected",

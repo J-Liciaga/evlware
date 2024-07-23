@@ -45,7 +45,7 @@ yarn netscout:cli -- -t example.com -s quick
 ```
 2. Run a full scan with detailed output:
 ```bash
-yarn netscout:cli -- -t example.com -s full --output detailed
+yarn netscout:cli --args="scan -t http://localhost:4200"
 ```
 
 ### Library Usage

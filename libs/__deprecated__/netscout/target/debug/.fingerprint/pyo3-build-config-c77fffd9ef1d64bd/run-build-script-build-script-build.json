@@ -1,0 +1,40 @@
+{
+	"rustc": 10297157445277311328,
+	"features": "",
+	"declared_features": "",
+	"target": 0,
+	"profile": 0,
+	"path": 0,
+	"deps": [
+		[1954079035420771680, "build_script_build", false, 15551248448649429558]
+	],
+	"local": [
+		{ "RerunIfEnvChanged": { "var": "PYO3_CONFIG_FILE", "val": null } },
+		{ "RerunIfEnvChanged": { "var": "PYO3_NO_PYTHON", "val": null } },
+		{
+			"RerunIfEnvChanged": {
+				"var": "PYO3_ENVIRONMENT_SIGNATURE",
+				"val": null
+			}
+		},
+		{ "RerunIfEnvChanged": { "var": "PYO3_PYTHON", "val": null } },
+		{ "RerunIfEnvChanged": { "var": "VIRTUAL_ENV", "val": null } },
+		{ "RerunIfEnvChanged": { "var": "CONDA_PREFIX", "val": null } },
+		{
+			"RerunIfEnvChanged": {
+				"var": "PATH",
+				"val": "/var/folders/jq/1mx2tc4j74j6fm9q1cq50by00000gn/T/yarn--1721618781421-0.8450931805974311:/Users/sensei/dev/evlware/node_modules/.bin:/Users/sensei/.config/yarn/link/node_modules/.bin:/opt/homebrew/Cellar/node/22.4.1/libexec/lib/node_modules/npm/bin/node-gyp-bin:/opt/homebrew/Cellar/node/22.4.1/lib/node_modules/npm/bin/node-gyp-bin:/opt/homebrew/Cellar/node/22.4.1/bin/node_modules/npm/bin/node-gyp-bin:/opt/homebrew/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/homebrew/bin"
+			}
+		},
+		{
+			"RerunIfEnvChanged": {
+				"var": "PYO3_USE_ABI3_FORWARD_COMPATIBILITY",
+				"val": null
+			}
+		}
+	],
+	"rustflags": [],
+	"metadata": 0,
+	"config": 0,
+	"compile_kind": 0
+}

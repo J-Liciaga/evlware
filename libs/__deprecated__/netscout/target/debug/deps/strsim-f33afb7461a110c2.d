@@ -1,0 +1,7 @@
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libstrsim-f33afb7461a110c2.rmeta: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strsim-0.11.1/src/lib.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libstrsim-f33afb7461a110c2.rlib: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strsim-0.11.1/src/lib.rs
+
+/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/strsim-f33afb7461a110c2.d: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strsim-0.11.1/src/lib.rs
+
+/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strsim-0.11.1/src/lib.rs:
