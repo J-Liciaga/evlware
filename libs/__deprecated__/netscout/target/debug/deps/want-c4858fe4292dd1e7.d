@@ -1,7 +1,0 @@
-/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libwant-c4858fe4292dd1e7.rmeta: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/want-0.3.1/src/lib.rs
-
-/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libwant-c4858fe4292dd1e7.rlib: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/want-0.3.1/src/lib.rs
-
-/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/want-c4858fe4292dd1e7.d: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/want-0.3.1/src/lib.rs
-
-/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/want-0.3.1/src/lib.rs:

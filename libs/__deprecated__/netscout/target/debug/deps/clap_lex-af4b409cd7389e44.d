@@ -1,8 +1,0 @@
-/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libclap_lex-af4b409cd7389e44.rmeta: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/ext.rs
-
-/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/libclap_lex-af4b409cd7389e44.rlib: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/ext.rs
-
-/Users/sensei/dev/evlware/libs/netscout/target/debug/deps/clap_lex-af4b409cd7389e44.d: /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/lib.rs /Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/ext.rs
-
-/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/lib.rs:
-/Users/sensei/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_lex-0.7.1/src/ext.rs:
