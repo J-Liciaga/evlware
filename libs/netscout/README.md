@@ -11,6 +11,44 @@ NetScout is an advanced, AI-augmented Rust library designed for comprehensive vu
 - Seamless integration with common security testing frameworks
 - Cross-platform support (Linux, macOS, Windows)
 
+## Directory
+
+```
+netscout/
+├── src/
+│   ├── lib.rs
+│   ├── main.rs
+│   ├── core/
+│   │   ├── mod.rs
+│   │   ├── scanners/
+│   │   │   ├── mod.rs
+│   │   │   └── web_scanner.rs
+│   │   ├── enumerators/
+│   │   │   ├── mod.rs
+│   │   │   └── web_enumerator.rs
+│   │   ├── analyzers/
+│   │   │   ├── mod.rs
+│   │   │   └── vulnerability_analyzer.rs
+│   │   └── exploits/
+│   │       ├── mod.rs
+│   │       ├── xss.rs
+│   │       ├── sql_injection.rs
+│   │       └── csrf.rs
+│   ├── models/
+│   │   ├── mod.rs
+│   │   └── web.rs
+│   ├── utils/
+│   │   ├── mod.rs
+│   │   └── http_client.rs
+│   └── config/
+│       ├── mod.rs
+│       └── settings.rs
+├── tests/
+│   └── integration_tests.rs
+├── Cargo.toml
+
+```
+
 ## Getting Started
 
 NetScout is part of a larger NX monorepo structure. This guide assumes you're working within this monorepo environment.
