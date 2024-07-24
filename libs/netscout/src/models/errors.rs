@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 use thiserror::Error;
+use super::common::Severity;
 
 #[derive(Debug, Error, Serialize, Deserialize)]
 pub enum NetworkError {
@@ -49,8 +50,8 @@ pub enum VulnerabilityAnalysisError {
     ScanFailed(String),
     #[error("Result parsing failed: {0}")]
     ResultParsingFailed(String),
-    #[error("Unknown vulnerability: {0}")]
-    UnknownVulnerability(String),
+    #[error("Unknown vulnerability: {0} (Severity: {1:?})")]
+    UnknownVulnerability(String, Severity),
     #[error("Vulnerability database error: {0}")]
     DatabaseError(String),
 }
