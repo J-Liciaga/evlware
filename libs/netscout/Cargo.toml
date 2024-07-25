@@ -3,13 +3,13 @@ name = "netscout"
 version = "0.1.0"
 edition = "2021"
 
-# [[bin]]
-# name = "netscout-cli"
-# path = "cli/commands.rs"
+[lib]
+name = "netscout"
+path = "src/lib.rs"
 
-# [[bin]]
-# name = "netscout-api"
-# path = "interfaces/api.rs"
+[[bin]]
+name = "netscout"
+path = "src/main.rs"
 
 [dependencies]
 clap = "4.5.10"

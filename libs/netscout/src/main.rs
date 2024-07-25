@@ -5,6 +5,10 @@
 use env_logger;
 use clap::{Command, Arg, ArgAction};
 
+use netscout;
+use netscout::models::results::ScanResults;
+use netscout::core::scanners::EVLScanner;
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
@@ -57,8 +61,30 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         match matches.subcommand() {
             Some(("scan", scan_matches)) => {
                 let target = scan_matches.get_one::<String>("target").unwrap();
-                // run_scan(target).await?;
-                println!("scanning target: {}", target)
+                let start_port: u16 = 1;
+                let end_port: u16 = 1024;
+
+                println!("Scanning target: {}, From port: {} to {}", target, start_port, end_port);
+
+                let scan_results: ScanResults = netscout::scan_ports(target, start_port, end_port);
+
+                if scan_results.open_ports.is_empty() {
+                    println!("No open ports found");
+                } else {
+                    println!("Open ports: {:?}", scan_results.open_ports);
+                    println!("Detected services: {:?}", scan_results.detected_services);
+
+                    if scan_results.vulnerabilities.is_empty() {
+                        println!("No vulnerabilities detected");
+                    } else {
+                        println!("Detected vulnerabilities: {:?}", scan_results.vulnerabilities);
+                    }
+                }
+
+                let scanner = EVLScanner::new(target);
+                let direct_scan_results = scanner.scan();
+                
+                println!("Direct scan results: {:?}", direct_scan_results);
             },
             Some(("enumerate", enum_matches)) => {
                 let target = enum_matches.get_one::<String>("target").unwrap();
