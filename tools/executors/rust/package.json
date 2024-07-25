@@ -1,0 +1,6 @@
+{
+    "name": "rust-executor",
+    "version": "1.0.0",
+    "main": "executor.js",
+    "executors": "./executors.json"
+}

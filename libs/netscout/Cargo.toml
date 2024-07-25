@@ -1,0 +1,22 @@
+[package]
+name = "netscout"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "netscout"
+path = "src/lib.rs"
+
+[[bin]]
+name = "netscout"
+path = "src/main.rs"
+
+[dependencies]
+clap = "4.5.10"
+dotenv = "0.15.0"
+env_logger = "0.11.5"
+reqwest = { version = "0.12.5", features = ["json"] }
+serde = { version = "1.0.204", features = ["derive"] }
+serde_json = "1.0.120"
+thiserror = "1.0.63"
+tokio = { version = "1.39.1", features = ["full"] }

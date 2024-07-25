@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "type": "object",
+    "properties": {
+        "command": {
+            "type": "string",
+            "description": "The Cargo command to run"
+        },
+        "projectRoot": {
+            "type": "string",
+            "description": "The root directory of the Rust project relative to the workspace root"
+        }
+    },
+    "required": ["command", "projectRoot"]
+}

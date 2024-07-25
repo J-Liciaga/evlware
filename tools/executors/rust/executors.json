@@ -1,0 +1,9 @@
+{
+    "executors": {
+        "rust": {
+            "implementation": "./executor",
+            "schema": "./schema.json",
+            "description": "Rust executor"
+        }
+    }
+}

@@ -1,7 +1,7 @@
 {
-	"name": "reporting",
+	"name": "ml-models",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/reportin/src",
+	"sourceRoot": "libs/ml-models/src",
 	"projectType": "library",
 	"tags": [],
 	"targets": {}

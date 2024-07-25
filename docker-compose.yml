@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  zap:
+    image: owasp/zap2docker-stable
+    command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.disablekey=true
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./zap_data:/zap/wrk:rw
+  # metasploit:
+  #   image: metasploitframework/metasploit-framework:latest
+  #   command: "./msfconsole -r docker/msfconsole.rc"
+  #   environment:
+  #     - MSF_USERNAME=msf
+  #     - MSF_PASSWORD=secret
+  #   ports:
+  #     - "55553:55553"
+  #   volumes:
+  #     - ./docker/metasploit:/home/msf/.msf4
