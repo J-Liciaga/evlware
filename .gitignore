@@ -60,7 +60,12 @@ npm-debug.*
 web-build/
 cache/
 
-
 # Misc
 __deprecated__
 **/__deprecated__/**
+
+
+# env
+.env
+.env*
+.*.env*

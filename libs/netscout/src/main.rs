@@ -1,16 +1,17 @@
 /**
  * CLI Entry Point
- */
+*/
 
+use env_logger;
 use clap::{Command, Arg, ArgAction};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // env_logger::init();
+    env_logger::init();
 
     let matches = Command::new("NetScout")
         .version("0.1.0")
-        .author("Your Name")
+        .author("EVLWARE")
         .about("Network penetration testing tool")
         .subcommand(
             Command::new("scan")

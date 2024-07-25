@@ -1,59 +1,72 @@
-use std::process::Command;
+use reqwest::{Client, Url};
+use serde::{Deserialize, Serialize};
 use std::error::Error;
-use std::{thread, time};
-use zap_api::ZapApiError;
-use zap_api::ZapService;
 
-pub async fn run_owasp_zap(
-    target: &str,
-) -> Result<(), Box<dyn Error>> {
-    println!("Running OWASP ZAP scan on {}", target);
+pub struct ZapClient {
+    client: Client,
+    base_url: Url,
+    api_key: String,
+}
 
-    let zap_url = "http://localhost:8090".to_string();
-    let zap_api_key = "KEY".to_string();
-    let target_url = "http://localhost:8080".to_string();
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ZapScanResult {
+    alerts: Vec<ZapAlert>,
+}
 
-    let service = ZapService {
-        url: zap_url,
-        api_key: zap_api_key,
-    };
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ZapAlert {
+    risk: String,
+    name: String,
+    description: String,
+}
 
-    // get the ZAP version
-    let res = zap_api::core::version(&service);
-    let zap_version;
-
-    match res {
-        Ok(v) => zap_version = v["version"].to_string(),
-        Err(e) => return Err(e),
+impl ZapClient {
+    pub fn new(
+        base_url: &str,
+        api_key: &str,
+    ) -> Result<Self, Box<dyn Error>> {
+        Ok(ZapClient {
+            client: Client::new(),
+            base_url: Url::parse(base_url)?,
+            api_key: api_key.to_string(),
+        })
     }
 
-    println!("ZAP Version: {}", zap_version);
+    pub async fn start_scan(
+        &self,
+        target: &str
+    ) -> Result<String, Box<dyn Error>> {
+        let url = self.base_url.join("JSON/spider/action/scan/")?;
+        let params = [("apiKey", &self.api_key), ("url", target)];
 
-    println!("Startin the std spider");
+        let response = self.client.get(url).query(&params).send().await?;
+        let scan_id: String = response.json().await?;
 
-    let res = zap_api::spider::scan(
-        &service,
-        target_url,
-        "-1".to_string(),       // max children,
-        "true".to_string(),     // recurse
-        "".to_string(),         // context name
-        "false".to_string(),    // subtree only
-    );
-
-    let scan_id;
-
-    match res {
-        Ok(v) => {
-            let res_status = &v["status"].as_str().unwrap();
-            status = res_status.parse::<i32>().unwrap();
-        }
-        Err(e) => return Err(e),
+        Ok(scan_id)
     }
 
-    println!("Scan status: {}", status);
+    pub async fn get_scan_results(
+        &self,
+        scan_id: &str
+    ) -> Result<String, Box<dyn Error>> {
+        let url = self.base_url.join("JSON/spider/view/status/")?;
+        let params = [("apiKey", &self.api_key), ("scanId", scan_id)];
 
-    // TODO: run active scanner
-    // TODO: display alerts
+        let response = self.client.get(url).query(&params).send().await?;
+        let status: String = response.json().await?;
 
-    Ok(())
+        Ok(status)
+    }
+
+    pub async fn get_alerts(
+        &self, 
+        target: &str
+    ) -> Result<ZapScanResult, Box<dyn Error>> {
+        let url = self.base_url.join("JSON/alert/view/alerts/")?;
+        let params = [("apikey", &self.api_key), ("baseurl", target)];
+        
+        let response = self.client.get(url).query(&params).send().await?;
+        let alerts: ZapScanResult = response.json().await?;
+        Ok(alerts)
+    }
 }

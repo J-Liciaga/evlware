@@ -61,6 +61,14 @@ By using or contributing to EVLWARE, you acknowledge that you have read, underst
 Remember: With great power comes great responsibility. Use EVLWARE ethically and wisely.
 
 
+## Firing Range
+
+- test bed for automated web application security scanners
+
+```bash
+https://public-firing-range.appspot.com/
+```
+
 ## Tech Stack
 
 > Subject To Change

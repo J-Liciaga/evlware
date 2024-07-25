@@ -16,36 +16,34 @@ NetScout is an advanced, AI-augmented Rust library designed for comprehensive vu
 ```
 netscout/
 ├── src/
-│   ├── lib.rs
-│   ├── main.rs
-│   ├── core/
+│   ├── core/                   # core functionality
 │   │   ├── mod.rs
 │   │   ├── scanners/
-│   │   │   ├── mod.rs
-│   │   │   └── web_scanner.rs
 │   │   ├── enumerators/
-│   │   │   ├── mod.rs
-│   │   │   └── web_enumerator.rs
 │   │   ├── analyzers/
-│   │   │   ├── mod.rs
-│   │   │   └── vulnerability_analyzer.rs
 │   │   └── exploits/
-│   │       ├── mod.rs
-│   │       ├── xss.rs
-│   │       ├── sql_injection.rs
-│   │       └── csrf.rs
+│   ├── integrations/           # third-party integrations
+│   │   ├── mod.rs
+│   │   ├── zap.rs
+│   │   └── metasploit.rs
 │   ├── models/
 │   │   ├── mod.rs
-│   │   └── web.rs
+│   │   ├── scan.rs
+│   │   └── vulnerability.rs
 │   ├── utils/
 │   │   ├── mod.rs
 │   │   └── http_client.rs
-│   └── config/
-│       ├── mod.rs
-│       └── settings.rs
-├── tests/
-│   └── integration_tests.rs
+│   ├── cli/                    # command line interface
+│   │   ├── mod.rs
+│   │   └── commands.rs
+│   ├── ffi/                    # foreign function interface
+│   │   ├── mod.rs
+│   │   └── bindings.rs
+│   ├── lib.rs
+│   └── main.rs
+├── build.rs
 ├── Cargo.toml
+└── README.md
 
 ```
 
