@@ -81,7 +81,7 @@ yarn netscout:cli -- -t example.com -s quick
 ```
 2. Run a full scan with detailed output:
 ```bash
-yarn netscout:cli --args="scan -t http://localhost:4200"
+yarn netscout:cli --args="scan -t https://public-firing-range.appspot.com/ -sp 1 -en 8000"
 ```
 
 ### Library Usage

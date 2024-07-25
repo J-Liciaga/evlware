@@ -25,7 +25,29 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         .short('t')
                         .long("target")
                         .value_name("URL")
-                        .help("Sets the target URL to scan")
+                        .help("Sets the target URL or IP address to scan")
+                        .required(true)
+                        .action(ArgAction::Set)
+                )
+                .arg(
+                    Arg::new("start-port")
+                        .short('s')
+                        .long("start-port")
+                        .value_name("START_PORT")
+                        .value_parser(clap::value_parser!(u16).range(1..))
+                        .help("Defines starting port number")
+                        .default_value("1")
+                        .required(true)
+                        .action(ArgAction::Set)
+                )
+                .arg(
+                    Arg::new("end-port")
+                        .short('e')
+                        .long("end-port")
+                        .value_name("END_PORT")
+                        .value_parser(clap::value_parser!(u16).range(1..))
+                        .help("Defines ending port number")
+                        .default_value("8000")
                         .required(true)
                         .action(ArgAction::Set)
                 )
@@ -60,9 +82,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         match matches.subcommand() {
             Some(("scan", scan_matches)) => {
-                let target = scan_matches.get_one::<String>("target").unwrap();
-                let start_port: u16 = 1;
-                let end_port: u16 = 1024;
+                let target = scan_matches
+                    .get_one::<String>("target")
+                    .unwrap();
+                let start_port: u16 = *scan_matches
+                    .get_one::<u16>("start-port")
+                    .unwrap();
+                let end_port: u16 = *scan_matches
+                    .get_one::<u16>("end-port")
+                    .unwrap();
 
                 println!("Scanning target: {}, From port: {} to {}", target, start_port, end_port);
 
