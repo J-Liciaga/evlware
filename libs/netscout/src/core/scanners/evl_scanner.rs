@@ -1,23 +1,21 @@
 use crate::models::results::ScanResults;
-use std::net::{IpAddr, SocketAddr, TcpStream, ToSocketAddrs};
+use super::modules::{PortScanner, WebAppScanner};
 use std::time::Duration;
 
 pub struct EVLScanner {
     target: String,
-    timeout: Duration,
-    start_port: u16,
-    end_port: u16,
+    port_scanner: PortScanner,
+    web_app_scanner: WebAppScanner,
 }
 
 impl EVLScanner {
-    pub fn new(
-        target: &str,
+    pub async fn new(
+        target: &str
     ) -> Self {
         EVLScanner {
             target: target.to_string(),
-            timeout: Duration::from_millis(200),
-            start_port: 1,
-            end_port: 1024,
+            port_scanner: PortScanner::new(target),
+            web_app_scanner: WebAppScanner::new(Duration::from_secs(10)).await,
         }
     }
 
@@ -26,81 +24,37 @@ impl EVLScanner {
         start: u16,
         end: u16,
     ) {
-        self.start_port = start;
-        self.end_port = end;
+        self.port_scanner.set_port_range(start, end);
     }
 
-    pub fn set_timeout(
-        &mut self,
-        timeout: Duration,
-    ) {
-        self.timeout = timeout;
-    }
-
-    pub fn scan(
+    pub async fn scan(
         &self
-    ) -> ScanResults {
-        println!("running scan, please wait...");
-        
-        let mut open_ports = Vec::new();
+    ) -> Result<ScanResults, Box<dyn std::error::Error>> {
+        let open_ports = self.port_scanner.scan().await;
+
         let mut detected_services = Vec::new();
-        let vulnerabilities = Vec::new();
-        
-        let ip = match self.resolve_host() {
-            Some(ip) => ip,
-            None => return ScanResults {
-                open_ports,
-                detected_services,
-                vulnerabilities
-            },
-        };
+        let mut vulnerabilities = Vec::new();
 
-        for port in self.start_port..=self.end_port {
-            let socket = SocketAddr::new(ip, port);
+        if open_ports.contains(&80) || open_ports.contains(&443) {
+            let schemes = if open_ports.contains(&443) { vec!["https", "http"] } else { vec!["http"] };
 
-            if TcpStream::connect_timeout(&socket, self.timeout).is_ok() {
-                open_ports.push(port);
-                // TODO: add logic to detect services and vulnerabilities
-                detected_services.push(
-                    format!("unknown service on port: {}", port)
-                )
-                // vulnerabilities.push(
-                //     format!("unknown vulnerability on port: {}", port)
-                // )
+            for scheme in schemes {
+                let url = format!("{}://{}", scheme, self.target);
+
+                match self.web_app_scanner.scan(&url).await {
+                    Ok(result) => {
+                        detected_services.push(format!("Web server at {} ({})", result.url, result.server_info));
+                        vulnerabilities.extend(result.vulnerabilities);
+                    }
+                    Err(e) => return Err(format!("Error scanning {}: {}", url, e).into()),
+                }
             }
         }
 
-        ScanResults {
+        Ok(ScanResults {
             open_ports,
             detected_services,
-            vulnerabilities
-        }
-    }
-
-    pub fn scan_single_port(
-        &self, 
-        port: u16
-    ) -> bool {
-        let ip = match self.resolve_host() {
-            Some(ip) => ip,
-            None => return false,
-        };
-
-        let socket = SocketAddr::new(ip, port);
-        TcpStream::connect_timeout(&socket, self.timeout).is_ok()
-    }
-
-    fn resolve_host(
-        &self
-    ) -> Option<IpAddr> {
-        // if the host is already an ip address, parse and return it
-        if let Ok(ip) = self.target.parse::<IpAddr>() {
-            return Some(ip);
-        }
-
-        // otherwise, try to resolve the hostname
-        let socket_addr = format!("{}:80", self.target);
-
-        socket_addr.to_socket_addrs().ok()?.next().map(|addr| addr.ip())
+            vulnerabilities,
+        })        
     }
 }

@@ -3,17 +3,16 @@ pub mod models;
 
 use crate::core::scanners::EVLScanner;
 use crate::models::results::ScanResults;
+pub use models::common::{Vulnerability, Severity};
 
-pub fn scan_ports(target: &str, start_port: u16, end_port: u16) -> ScanResults {
-    let mut scanner = EVLScanner::new(target);
+pub async fn scan_ports(
+    target: &str, 
+    start_port: u16,
+    end_port: u16
+) ->  Result<ScanResults, Box<dyn std::error::Error>> {
+    let mut scanner = EVLScanner::new(target).await;
 
     scanner.set_port_range(start_port, end_port);
     
-    scanner.scan()
-}
-
-pub fn quick_scan(target: &str, port: u16) -> bool {
-    let scanner = EVLScanner::new(target);
-    
-    scanner.scan_single_port(port)
+    Ok(scanner.scan().await?)
 }
