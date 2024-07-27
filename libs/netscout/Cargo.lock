@@ -632,11 +632,13 @@ dependencies = [
  "clap",
  "dotenv",
  "env_logger",
+ "regex",
  "reqwest",
  "serde",
  "serde_json",
  "thiserror",
  "tokio",
+ "url",
 ]
 
 [[package]]
