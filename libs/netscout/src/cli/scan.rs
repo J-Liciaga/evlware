@@ -22,7 +22,7 @@ pub fn command() -> Command {
                 .value_parser(clap::value_parser!(u16).range(1..))
                 .help("Defines starting port number")
                 .default_value("1")
-                .required(true)
+                .required(false)
                 .action(ArgAction::Set)
         )
         .arg(
@@ -32,8 +32,8 @@ pub fn command() -> Command {
                 .value_name("END_PORT")
                 .value_parser(clap::value_parser!(u16).range(1..))
                 .help("Defines ending port number")
-                .default_value("8000")
-                .required(true)
+                .default_value("1024")
+                .required(false)
                 .action(ArgAction::Set)
         )
 }

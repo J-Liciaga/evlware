@@ -8,7 +8,7 @@ pub enum Severity {
     Critical,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Vulnerability {
     pub name: String,
     pub severity: Severity,
