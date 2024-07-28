@@ -1,5 +1,4 @@
-mod modules;
-mod evl_scanner;
+pub mod modules;
+pub mod evl_scan;
 
-pub use evl_scanner::EVLScanner;
-pub use modules::{PortScanner, WebAppScanner};
+pub use evl_scan::{EVLScannerConfig, scan};

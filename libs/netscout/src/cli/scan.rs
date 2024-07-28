@@ -1,18 +1,28 @@
 use clap::{Command, Arg, ArgAction, ArgMatches};
-use netscout::models::results::ScanResults;
-use netscout::core::scanners::EVLScanner;
+use std::time::Duration;
+use crate::models::results::ScanResults;
+use crate::core::scanners::evl_scan::{EVLScannerConfig, scan};
 
 pub fn command() -> Command {
     Command::new("scan")
-        .about("Runs a full network scan on the target.")
+        .about("Runs a full scan on the target.")
         .arg(
             Arg::new("target")
                 .short('t')
                 .long("target")
                 .value_name("URL")
-                .help("Sets the target URL or IP address to scan")
                 .required(true)
                 .action(ArgAction::Set)
+                .help("Sets the target URL or IP address to scan")
+        )
+        .arg(
+            Arg::new("mode")
+                .short('m')
+                .long("mode")
+                .value_name("MODE")
+                .required(false)
+                .action(ArgAction::Set)
+                .help("Sets your scan mode: quiet, default, noisy, loud")
         )
         .arg(
             Arg::new("start-port")
@@ -20,10 +30,10 @@ pub fn command() -> Command {
                 .long("start-port")
                 .value_name("START_PORT")
                 .value_parser(clap::value_parser!(u16).range(1..))
-                .help("Defines starting port number")
                 .default_value("1")
                 .required(false)
                 .action(ArgAction::Set)
+                .help("Defines starting port number")
         )
         .arg(
             Arg::new("end-port")
@@ -31,29 +41,46 @@ pub fn command() -> Command {
                 .long("end-port")
                 .value_name("END_PORT")
                 .value_parser(clap::value_parser!(u16).range(1..))
-                .help("Defines ending port number")
                 .default_value("1024")
                 .required(false)
                 .action(ArgAction::Set)
+                .help("Defines ending port number")
         )
 }
 
-pub async fn execute(matches: &ArgMatches) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn execute(
+    matches: &ArgMatches
+) -> Result<(), Box<dyn std::error::Error>> {
     let target = matches.get_one::<String>("target").unwrap();
     let start_port: u16 = *matches.get_one::<u16>("start-port").unwrap();
     let end_port: u16 = *matches.get_one::<u16>("end-port").unwrap();
 
-    println!("Scanning target: {}, From port: {} to {}", target, start_port, end_port);
+    let default_mode = String::from("default");
+    let mode = matches.get_one::<String>("mode").unwrap_or(&default_mode);
 
-    let mut scanner = EVLScanner::new(target).await;
-    
-    scanner.set_port_range(start_port, end_port);
+    println!(
+        "Scanning target: {}, From port: {} to {}, Mode: {}", 
+        target, 
+        start_port, 
+        end_port,
+        mode,
+    );
 
-    let scan_results = scanner.scan().await?;
+    let config = EVLScannerConfig {
+        target: target.to_string(),
+        port_range: (start_port, end_port),
+        port_timeout: Duration::from_secs(1),
+        web_timeout: Duration::from_secs(10),
+        max_concurrent_port_scans: 100,
+        max_concurrent_web_scans: 10,
+        mode: mode.to_string(),
+    };
+
+    let scan_results = scan(&config).await?;
 
     print_scan_results(&scan_results);
 
-    Ok(())
+    Ok(()) 
 }
 
 fn print_scan_results(scan_results: &ScanResults) {

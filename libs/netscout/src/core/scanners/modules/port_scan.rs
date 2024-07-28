@@ -1,97 +1,115 @@
+use std::time::{Duration, Instant};
 use tokio::net::TcpStream;
+use tokio::time::timeout;
 use std::net::ToSocketAddrs;
-use std::time::Duration;
-use url::Url;
+use futures::stream::{self, StreamExt};
+use tokio::sync::Semaphore;
+use std::sync::Arc;
 
-pub struct PortScanner {
-    target: String,
-    timeout: Duration,
-    port_range: (u16, u16),
+#[derive(Debug, Clone)]
+pub struct PortScanConfig {
+    pub target: String,
+    pub timeout: Duration,
+    pub port_range: (u16, u16),
+    pub max_concurrent_scans: usize,
 }
 
-impl PortScanner {
-    pub fn new(
-        target: &str
-    ) -> Self {
-        let hostname = Url::parse(target)
-            .map(|url| url.host_str().unwrap_or(target).to_string())
-            .unwrap_or_else(|_| target.to_string());
+#[derive(Debug)]
+pub struct PortScanResult {
+    pub port: u16,
+    pub state: PortState,
+    pub response_time: Duration,
+}
 
-        PortScanner {
-            target: hostname,
-            timeout: Duration::from_secs(1),
-            port_range: (1, 1024),
-        }
-    }
+#[derive(Debug, PartialEq)] 
+pub enum PortState {
+    Open,
+    Closed,
+    Filtered,
+}
 
-    pub fn set_timeout(
-        &mut self,
-        timeout: Duration
-    ) {
-        self.timeout = timeout;
-    }
+pub async fn scan_ports(config: &PortScanConfig) -> Vec<PortScanResult> {
+    let semaphore = Arc::new(
+        Semaphore::new(
+            config.max_concurrent_scans
+        )
+    );
 
-    pub fn set_port_range(
-        &mut self,
-        start: u16,
-        end: u16,
-    ) {
-        self.port_range = (start, end);
-    }
+    let results: Vec<PortScanResult> = stream::iter(
+        config.port_range.0..=config.port_range.1
+    )
+        .map(|port| {
+            let sem_clone = semaphore.clone();
+            let config_clone = config.clone();
 
-    pub async fn scan(
-        &self,
-    ) -> Vec<u16> {
-        println!(
-            "scanning ports for target: {}, from port {} to {}",
-            self.target,
-            self.port_range.0,
-            self.port_range.1,
-        );
+            async move {
+                let _permit = sem_clone
+                    .acquire()
+                    .await
+                    .unwrap();
 
-        let mut open_ports = Vec::new();
-
-        for port in self.port_range.0..=self.port_range.1 {
-            if self.is_port_open(port).await {
-                open_ports.push(port);
+                check_port(
+                    config_clone, 
+                    port
+                ).await
             }
-        }
+        })
+        .buffer_unordered(config.max_concurrent_scans)
+        .collect()
+        .await;
 
-        println!("Debug: Open ports found: {:?}", open_ports);
-        open_ports
+    let filtered_count = results
+        .iter()
+        .filter(|r| 
+            matches!(
+                r.state, 
+                PortState::Filtered
+            )
+        )
+        .count();
 
-        // (self.port_range.0..=self.port_range.1)
-        //     .filter(|&port| self.is_port_open(port))
-        //     .collect()
+    if filtered_count > (config.port_range.1 - config.port_range.0) as usize / 2 {
+        println!(
+            "Firewall Detected: More than half of the ports appear to be filtered."
+        );
     }
 
-    async fn is_port_open(
-        &self,
-        port: u16
-    ) -> bool {
-        let addr = format!("{}:{}", self.target, port);
+    results
+}
 
-        match addr.to_socket_addrs() {
-            Ok(mut addrs) => {
-                if let Some(addr) = addrs.next() {
-                    match tokio::time::timeout(
-                        self.timeout,
-                        TcpStream::connect(&addr)
-                    ).await {
-                        Ok(Ok(_)) => {
-                            println!("Debug: Port {} is open", port);
-                            true
-                        },
-                        _ => false,
-                    }
-                } else {
-                    false
+async fn check_port(
+    config: PortScanConfig,
+    port: u16,
+) -> PortScanResult {
+    let addr = format!(
+        "{}:{}",
+        config.target,
+        port,
+    );
+    
+    let start_time = Instant::now();
+
+    let state = match addr.to_socket_addrs() {
+        Ok(mut addrs) => {
+            if let Some(addr) = addrs.next() {
+                match timeout(
+                    config.timeout,
+                    TcpStream::connect(&addr)
+                ).await {
+                    Ok(Ok(_)) => PortState::Open,
+                    Ok(Err(_)) => PortState::Closed,
+                    Err(_) => PortState::Filtered,
                 }
-            },
-            Err(_) => false,
-        }
-        // addr.to_socket_addrs()
-        //     .map(|mut addrs| addrs.any(|addr| TcpStream::connect_timeout(&addr, self.timeout).is_ok()))
-        //     .unwrap_or(false)
+            } else {
+                PortState::Filtered
+            }
+        },
+        Err(_) => PortState::Filtered,
+    };
+
+    PortScanResult {
+        port,
+        state,
+        response_time: start_time.elapsed(),
     }
 }
