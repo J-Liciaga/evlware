@@ -1,5 +1,4 @@
-mod evl_scanner;
-// pub mod zap_scanner;
+pub mod modules;
+pub mod evl_scan;
 
-pub use evl_scanner::EVLScanner;
-// pub use zap_scanner::*;
+pub use evl_scan::{EVLScannerConfig, scan};

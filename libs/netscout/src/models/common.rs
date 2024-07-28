@@ -1,18 +1,18 @@
 use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Vulnerability {
+    pub name: String,
+    pub severity: Severity,
+    pub description: String,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Severity {
     Low,
     Medium,
     High,
     Critical,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Vulnerability {
-    pub name: String,
-    pub severity: Severity,
-    pub description: String,
 }
 
 impl Vulnerability {
