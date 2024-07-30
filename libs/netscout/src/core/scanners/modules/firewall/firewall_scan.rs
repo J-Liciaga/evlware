@@ -122,7 +122,6 @@ impl FirewallDetector {
                     return false;
                 }
             }
-            
             // Check if a previously closed port is now open
             send_tcp_syn(host, 7777, self.timeout).await.is_ok()
         } else {
@@ -142,49 +141,4 @@ impl FirewallDetector {
             AppLayerFirewall::None
         }
     }
-}
-
-async fn send_tcp_syn(
-    host: &str, 
-    port: u16, 
-    timeout: Duration
-) -> Result<Duration, std::io::Error> {
-    let start = std::time::Instant::now();
-    let addr = format!("{}:{}", host, port);
-    let result = tokio::time::timeout(timeout, TcpStream::connect(&addr)).await;
-
-    match result {
-        Ok(Ok(_)) => Ok(start.elapsed()),
-        Ok(Err(e)) => Err(e),
-        Err(_) => Err(std::io::Error::new(std::io::ErrorKind::TimedOut, "Connection timed out"))
-    }
-}
-
-#[allow(unused_variables)]
-async fn send_tcp_syn_fin(
-    host: &str, 
-    port: u16, 
-    timeout: Duration
-) -> Result<(), std::io::Error> {
-    // Implement SYN-FIN packet sending
-    Ok(())
-}
-
-#[allow(unused_variables)]
-async fn send_tcp_null(
-    host: &str,
-    port: u16, 
-    timeout: Duration
-) -> Result<(), std::io::Error> {
-    // Implement NULL packet sending
-    Ok(())
-}
-
-#[allow(unused_variables)]
-async fn send_http_request(
-    url: &Url, 
-    timeout: Duration
-) -> Result<String, std::io::Error> {
-    // Implement a basic HTTP request
-    Ok(String::new())
 }
