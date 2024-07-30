@@ -66,11 +66,6 @@ async fn scan_single_web_app(
     url: &str,
     client: &Client
 ) -> Result<WebAppScanResult, reqwest::Error> {
-    // let client = Client::builder()
-    //     .timeout(config.timeout)
-    //     .redirect(Policy::limited(5))
-    //     .build()?;
-
     let response = client
         .get(url)
         .send()

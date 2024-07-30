@@ -74,6 +74,8 @@ pub async fn execute(
         max_concurrent_port_scans: 100,
         max_concurrent_web_scans: 10,
         mode: mode.to_string(),
+        firewall_detection: true,
+        firewall_timeout: Duration::from_secs(10),
     };
 
     let scan_results = scan(&config).await?;
