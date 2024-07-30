@@ -42,6 +42,7 @@ pub async fn scan(
         port_range: config.port_range,
         max_concurrent_scans: config.max_concurrent_port_scans,
     };
+    
     let port_results = scan_ports(&port_config).await;
     let open_ports: Vec<u16> = port_results
         .iter()
@@ -58,14 +59,17 @@ pub async fn scan(
         timeout: config.web_timeout,
         max_concurrent_scans: config.max_concurrent_web_scans,
     };
+
     let mut detected_services = Vec::new();
     let mut vulnerabilities = Vec::new();
+
     if open_ports.contains(&80) || open_ports.contains(&443) {
         let schemes = if open_ports.contains(&443) {
             vec!["https"]
         } else {
             vec!["http"]
         };
+
         let urls: Vec<String> = schemes.into_iter()
             .map(|scheme| format!(
                 "{}://{}",
@@ -75,6 +79,7 @@ pub async fn scan(
             .collect();
         
         let web_results = scan_web_app(&web_config, urls).await;
+
         for result in web_results {
             match result {
                 Ok(scan_result) => {
@@ -85,7 +90,6 @@ pub async fn scan(
             }
         }
     }
-
 
     Ok(ScanResults {
         open_ports,

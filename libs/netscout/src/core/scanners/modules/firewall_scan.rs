@@ -2,7 +2,13 @@ use url::Url;
 use tokio::time::Duration;
 use tokio::net::TcpStream;
 use rand::Rng;
-use crate::models::firewall::{FirewallProfile, TcpSynTiming, IcmpResponse, TcpFlagBehavior, AppLayerFirewall};
+use crate::models::firewall::{
+    FirewallProfile, 
+    TcpSynTiming, 
+    IcmpResponse, 
+    TcpFlagBehavior, 
+    AppLayerFirewall
+};
 
 pub struct FirewallDetector {
     target: Url,
@@ -16,6 +22,7 @@ impl FirewallDetector {
         } else {
             Url::parse(&target)?
         };
+
         Ok(Self {
             target: url,
             timeout: Duration::from_millis(timeout_ms),
@@ -34,6 +41,7 @@ impl FirewallDetector {
 
     async fn tcp_syn_timing(&self) -> TcpSynTiming {
         let mut timings = Vec::new();
+
         if let Some(host) = self.target.host_str() {
             for _ in 0..5 {
                 if let Ok(duration) = send_tcp_syn(host, self.target.port().unwrap_or(80), self.timeout).await {
@@ -88,6 +96,7 @@ impl FirewallDetector {
     async fn detect_port_knocking(&self) -> bool {
         // Simplified port knocking detection
         let knock_sequence = vec![1234, 2345, 3456];
+        
         if let Some(host) = self.target.host_str() {
             for port in knock_sequence {
                 if send_tcp_syn(host, port, self.timeout).await.is_err() {
@@ -116,10 +125,15 @@ impl FirewallDetector {
     }
 }
 
-async fn send_tcp_syn(host: &str, port: u16, timeout: Duration) -> Result<Duration, std::io::Error> {
+async fn send_tcp_syn(
+    host: &str, 
+    port: u16, 
+    timeout: Duration
+) -> Result<Duration, std::io::Error> {
     let start = std::time::Instant::now();
     let addr = format!("{}:{}", host, port);
     let result = tokio::time::timeout(timeout, TcpStream::connect(&addr)).await;
+    
     match result {
         Ok(Ok(_)) => Ok(start.elapsed()),
         Ok(Err(e)) => Err(e),
@@ -128,25 +142,39 @@ async fn send_tcp_syn(host: &str, port: u16, timeout: Duration) -> Result<Durati
 }
 
 #[allow(unused_variables)]
-async fn send_tcp_syn_fin(host: &str, port: u16, timeout: Duration) -> Result<(), std::io::Error> {
+async fn send_tcp_syn_fin(
+    host: &str, 
+    port: u16, 
+    timeout: Duration
+) -> Result<(), std::io::Error> {
     // Implement SYN-FIN packet sending
     Ok(())
 }
 
 #[allow(unused_variables)]
-async fn send_tcp_null(host: &str, port: u16, timeout: Duration) -> Result<(), std::io::Error> {
+async fn send_tcp_null(
+    host: &str,
+    port: u16, 
+    timeout: Duration
+) -> Result<(), std::io::Error> {
     // Implement NULL packet sending
     Ok(())
 }
 
 #[allow(unused_variables)]
-async fn send_http_request(url: &Url, timeout: Duration) -> Result<String, std::io::Error> {
+async fn send_http_request(
+    url: &Url, 
+    timeout: Duration
+) -> Result<String, std::io::Error> {
     // Implement a basic HTTP request
     Ok(String::new())
 }
 
 #[allow(unused_variables)]
-async fn send_icmp_echo(host: &str, timeout: Duration) -> Result<Duration, std::io::Error> {
+async fn send_icmp_echo(
+    host: &str, 
+    timeout: Duration
+) -> Result<Duration, std::io::Error> {
     // Implement actual ICMP echo request
     Ok(Duration::from_millis(50))
 }
