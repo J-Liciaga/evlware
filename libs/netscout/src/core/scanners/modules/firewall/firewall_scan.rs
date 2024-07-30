@@ -63,9 +63,28 @@ impl FirewallDetector {
 
     async fn icmp_probe(&self) -> IcmpResponse {
         if let Some(host) = self.target.host_str() {
-            match send_icmp_echo(host, self.timeout).await {
-                Ok(_) => IcmpResponse::Allowed,
-                Err(_) => IcmpResponse::Blocked,
+            // attempt to resolve the hostname to an IP address
+            let addr = match (host, 0).to_socket_addrs() {
+                Ok(mut addrs) => addrs.next(),
+                Err(_) => None,
+            };
+
+            if let Some(ip) = addr {
+                match send_icmp_echo(
+                    &ip.ip().to_string(), 
+                    self.timeout
+                ).await {
+                    Ok(duration) => {
+                        if duration > Duration::from_millis(500) {
+                            IcmpResponse::RateLimited
+                        } else {
+                            IcmpResponse::Allowed
+                        }
+                    },
+                    Err(_) => IcmpResponse::Blocked,
+                }
+            } else {
+                IcmpResponse::Blocked
             }
         } else {
             IcmpResponse::Blocked
@@ -168,13 +187,4 @@ async fn send_http_request(
 ) -> Result<String, std::io::Error> {
     // Implement a basic HTTP request
     Ok(String::new())
-}
-
-#[allow(unused_variables)]
-async fn send_icmp_echo(
-    host: &str, 
-    timeout: Duration
-) -> Result<Duration, std::io::Error> {
-    // Implement actual ICMP echo request
-    Ok(Duration::from_millis(50))
 }
