@@ -58,6 +58,16 @@ pub async fn execute(
     let default_mode = String::from("default");
     let mode = matches.get_one::<String>("mode").unwrap_or(&default_mode);
 
+    let ascii_art = r#"
+    _   _ _____ _____ ____   ____ ___  _   _ _____ 
+    | \ | | ____|_   _/ ___| / ___/ _ \| | | |_   _|
+    |  \| |  _|   | | \___ \| |  | | | | | | | | |  
+    | |\  | |___  | |  ___) | |__| |_| | |_| | | |  
+    |_| \_|_____| |_| |____/ \____\___/ \___/  |_|   
+    "#;
+
+    println!("{}", ascii_art);
+
     println!(
         "Scanning target: {}, From port: {} to {}, Mode: {}", 
         target, 
