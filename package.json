@@ -9,6 +9,7 @@
     "serve:roach": "nx run-ios evlroach",
     "serve:gorgon": "nx serve evlgorgon",
     "netscout:cli": "nx run netscout:run",
+    "netexploit:cli": "nx run netexploit:run",
     "workspace:test-builds": "nx affected -t build",
     "workspace:lint": "nx affected --target lint --parallel 3",
     "workspace:affected": "nx affected",

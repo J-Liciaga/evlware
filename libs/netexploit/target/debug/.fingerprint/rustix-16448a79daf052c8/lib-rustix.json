@@ -1,0 +1,25 @@
+{
+	"rustc": 10297157445277311328,
+	"features": "[\"alloc\", \"default\", \"fs\", \"libc-extra-traits\", \"std\", \"use-libc-auxv\"]",
+	"declared_features": "",
+	"target": 863302571160575251,
+	"profile": 4374887572363265115,
+	"path": 3668884111534100069,
+	"deps": [
+		[7915616705832019258, "build_script_build", false, 6359512846118703733],
+		[8535638787819885048, "bitflags", false, 10369233037047334470],
+		[9447892398262172041, "libc_errno", false, 9524694137766156994],
+		[16859105048871006744, "libc", false, 1362161153472222264]
+	],
+	"local": [
+		{
+			"CheckDepInfo": {
+				"dep_info": "debug/.fingerprint/rustix-16448a79daf052c8/dep-lib-rustix"
+			}
+		}
+	],
+	"rustflags": [],
+	"metadata": 7953970670347159126,
+	"config": 2202906307356721367,
+	"compile_kind": 0
+}

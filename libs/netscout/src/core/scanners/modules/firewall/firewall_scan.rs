@@ -9,6 +9,13 @@ use crate::models::firewall::{
     TcpFlagBehavior, 
     AppLayerFirewall
 };
+use super::helpers::{
+    send_http_request,
+    send_icmp_echo,
+    send_tcp_null,
+    send_tcp_syn_fin,
+    send_tcp_syn,
+};
 
 pub struct FirewallDetector {
     target: Url,
@@ -44,7 +51,11 @@ impl FirewallDetector {
 
         if let Some(host) = self.target.host_str() {
             for _ in 0..5 {
-                if let Ok(duration) = send_tcp_syn(host, self.target.port().unwrap_or(80), self.timeout).await {
+                if let Ok(duration) = send_tcp_syn(
+                    host, 
+                    self.target.port().unwrap_or(80), 
+                    self.timeout
+                ).await {
                     timings.push(duration);
                 }
             }
