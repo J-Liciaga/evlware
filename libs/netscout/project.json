@@ -45,6 +45,14 @@
 				"command": "test",
 				"projectRoot": "libs/netscout"
 			}
+		},
+		"cargo-docs": {
+			"executor": "./tools/executors/rust:rust",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"command": "doc --open",
+				"projectRoot": "libs/netscout"
+			}
 		}
 	}
 }
