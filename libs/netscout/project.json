@@ -14,11 +14,27 @@
 				"args": []
 			}
 		},
+		"check": {
+			"executor": "./tools/executors/rust:rust",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"command": "check",
+				"projectRoot": "libs/netscout"
+			}
+		},
 		"build": {
 			"executor": "./tools/executors/rust:rust",
 			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
 			"options": {
 				"command": "build",
+				"projectRoot": "libs/netscout"
+			}
+		},
+		"build-prod": {
+			"executor": "./tools/executors/rust:rust",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"command": "build --release",
 				"projectRoot": "libs/netscout"
 			}
 		},
