@@ -6,7 +6,7 @@ use clap::{
 };
 
 pub fn command() -> Command {
-    Command::new("scan")
+    Command::new("enum")
         .arg(
             Arg::new("target")
                 .short('t')
@@ -24,7 +24,7 @@ pub async fn execute(
     let target = matches.get_one::<String>("target").unwrap();
 
     println!(
-        "Performing full scan on target: {}", 
+        "Scanning target: {}", 
         target, 
     );
 

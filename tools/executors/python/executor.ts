@@ -17,7 +17,7 @@ export default async function pythonExecutor(
 ) {
     return new Promise<{ success: boolean }>((resolve) => {
         const args = options.args ? options.args.join(' ') : '';
-        const command = `python ${options.command} ${args}`;
+        const command = `python3 ${options.command} ${args}`;
         
         exec(command, { cwd: context.cwd }, (error, stdout, stderr) => {
             console.log(stdout);

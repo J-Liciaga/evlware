@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use super::common::Vulnerability;
+use super::vulnerability::Vulnerability;
 use super::firewall::FirewallProfile;
 
 #[derive(Serialize, Deserialize, Debug)]

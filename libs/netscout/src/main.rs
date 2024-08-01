@@ -1,5 +1,3 @@
-// CLI Entry Point
-
 use env_logger;
 use netscout::cli;
 

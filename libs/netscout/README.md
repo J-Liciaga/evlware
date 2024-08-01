@@ -16,6 +16,7 @@ NetScout is an advanced, AI-augmented Rust library designed for comprehensive vu
 ```
 netscout/
 ├── src/
+|   ├── common/                 # commonly shared functionality    
 │   ├── core/                   # core functionality
 │   │   ├── mod.rs
 │   │   ├── scanners/
@@ -41,7 +42,6 @@ netscout/
 │   │   └── bindings.rs
 │   ├── lib.rs
 │   └── main.rs
-├── build.rs
 ├── Cargo.toml
 └── README.md
 
