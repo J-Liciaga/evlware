@@ -4,6 +4,7 @@ mod report;
 mod scan;
 mod vulnerability;
 use crate::models::common::NoiseLevel;
+use crate::config::Settings;
 
 use clap::{
     Command,
@@ -46,13 +47,14 @@ pub fn parse_noise_level(
 
 pub async fn execute(
     matches: &ArgMatches,
+    config: &Settings,
 ) -> Result<(), Box<dyn std::error::Error>> {
     match matches.subcommand() {
-        Some(("analyze", sub_matches)) => analyze::execute(sub_matches).await,
-        Some(("enum", sub_matches)) => enumerate::execute(sub_matches).await,
-        Some(("report", sub_matches)) => report::execute(sub_matches).await,
-        Some(("scan", sub_matches)) => scan::execute(sub_matches).await,
-        Some(("vuln", sub_matches)) => vulnerability::execute(sub_matches).await,
+        Some(("analyze", sub_matches)) => analyze::execute(sub_matches, config).await,
+        Some(("enum", sub_matches)) => enumerate::execute(sub_matches, config).await,
+        Some(("report", sub_matches)) => report::execute(sub_matches, config).await,
+        Some(("scan", sub_matches)) => scan::execute(sub_matches, config).await,
+        Some(("vuln", sub_matches)) => vulnerability::execute(sub_matches, config).await,
         _ => {
             println!("Please specify a valid subcommand. Use --help for more information.");
             Ok(())

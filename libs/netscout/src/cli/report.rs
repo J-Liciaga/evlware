@@ -1,3 +1,4 @@
+use crate::config::Settings;
 use clap::{
     Command,
     Arg,
@@ -38,12 +39,14 @@ pub fn command() -> Command {
 
 pub async fn execute(
     matches: &ArgMatches,
+    config: &Settings,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let generate = matches.get_one::<String>("generate").unwrap();
+    let target = matches.get_one::<String>("target").unwrap();
 
     println!(
-        "Creating Report for target: {}", 
-        generate, 
+        "Creating Report for target: {}, with Settings: {:?}", 
+        target, 
+        config,
     );
 
     Ok(())

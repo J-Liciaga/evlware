@@ -1,5 +1,6 @@
 use env_logger;
 use netscout::cli;
+use netscout::config;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -18,5 +19,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = cli::build_cli();
     let matches = cli.get_matches();
 
-    cli::execute(&matches).await
+    let config = config::load(&matches)?;
+    
+    cli::execute(&matches, &config).await
 }
