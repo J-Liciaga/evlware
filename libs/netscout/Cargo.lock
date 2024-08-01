@@ -849,6 +849,7 @@ dependencies = [
  "env_logger 0.11.5",
  "futures",
  "log 0.4.22",
+ "openssl",
  "pnet",
  "pnet_packet",
  "rand 0.8.5",

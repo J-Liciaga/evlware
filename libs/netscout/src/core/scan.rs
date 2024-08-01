@@ -31,11 +31,35 @@ impl Scanner {
         target: Target,
     ) -> Result<ScanResult, EvlwareError> { 
         let mut scan_result = ScanResult::new(target.clone());
+        let mut firewall_profile = None;
 
         // step 1: firewall scan
+        if config.firewall_detection {
+            match FirewallDetector::new(
+                config.target.clone(),
+                config.firewall_timeout.as_millis() as u64,
+            ) {
+                Ok(firewall_detector) => {
+                    firewall_profile = Some(firewall_detector.detect().await);
+                },
+                Err(e) => {
+                    println!(
+                        "Error creating Firewall Detector: {}",
+                        e
+                    );
+                }
+            }
+        }
 
         // step 2: port scan
-        let open_ports = self.port_scanner.scan(&target).await?;
+        let port_config = PortScanConfig {
+            target: config.target.clone(),
+            timeout: config.port_timeout,
+            port_range: config.port_range,
+            max_concurrent_scans: config.max_concurrent_port_scans,
+        };
+
+        let open_ports = port_scanner(&target).await?;
 
         scan_result.add_open_ports(open_ports);
 
@@ -56,6 +80,11 @@ impl Scanner {
 
         scan_result.add_vulnerabilities(vulnerabilities);
 
-        Ok(scan_results)
+        Ok(ScanResults {
+            open_ports,
+            detected_services,
+            vulnerabilities,
+            fireall_profile,
+        })
     }
 }
