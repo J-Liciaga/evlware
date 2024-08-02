@@ -5,7 +5,7 @@ use tokio::sync::Semaphore;
 use tokio::net::TcpStream;
 use tokio::time::timeout;
 use futures::stream::{self, StreamExt};
-use crate::models::common::NoiseLevel;
+use crate::models::noise::NoiseLevel;
 
 #[derive(Debug, Clone)]
 pub struct PortScanConfig {
@@ -45,11 +45,9 @@ pub async fn port_scanner(
         NoiseLevel::Aggressive => (1..65535).collect(),
     };
 
-    let results: Vec<PortScanResult> = stream::iter(
-        config.port_range.0..=config.port_range.1
-    )
+    let results: Vec<PortScanResult> = stream::iter(ports_to_scan)
         .map(|port| {
-            let sem = semaphore.clone();
+            let sem_clone = semaphore.clone();
             let config_clone = config.clone();
 
             async move {

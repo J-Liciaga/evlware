@@ -1,90 +1,81 @@
-use crate::models::{ScanResult, Target, NoiseLevel};
-use crate::modules::network::port_scanner::PortScanner;
-use crate::modules::web::crawler::WebCrawler;
-use crate::modules::enumeration::subdomain_enumerator::SubdomainEnumerator;
-use crate::modules::vulnerability::vuln_scanner::VulnScanner;
-use crate::utils::error::EvlwareError;
+use crate::models::noise::NoiseLevel;
+use crate::models::results::ScanResults;
+use crate::models::target::Target;
+use crate::modules::firewall::firewall_detector::FirewallDetector;
+// use crate::modules::network::port_scan::{PortScanner, PortScanConfig, PortState};
+// use crate::modules::web::crawler::WebCrawler;
+// use crate::modules::enumeration::subdomain_enumerator::SubdomainEnumerator;
+// use crate::modules::vulnerability::vuln_scanner::VulnScanner;
+// use crate::models::error::EvlwareError;
+use std::time::Duration;
 
-pub struct Scanner {
-    noise_level: NoiseLevel,
-    port_scanner: PortScanner,
-    web_crawler: WebCrawler,
-    subdomain_enumerator: SubdomainEnumerator,
-    vuln_scanner: VulnScanner,
+pub struct EvlScannerConfig {
+    pub target: Target,
+    pub noise: NoiseLevel,
+    pub port_range: (u16, u16),
+    pub port_timeout: Duration,
+    pub web_timeout: Duration,
+    pub max_concurrent_port_scans: usize,
+    pub max_concurrent_web_scans: usize,
+    pub firewall_detection: bool,
+    pub firewall_timeout: Duration,
 }
 
-impl Scanner {
-    pub fn new(
-        noise_level: NoiseLevel,
-    ) -> Self {
-        Scanner {
-            noise_level,
-            port_scanner: PortScanner::new(noise_level),
-            web_crawler: WebCrawler::new(noise_level),
-            subdomain_enumerator: SubdomainEnumerator:new(noise_level),
-            vuln_scanner: VulnScanner::new(noise_level),
-        }
-    }
+pub async fn scan(
+   config: &EvlScannerConfig,
+) -> Result<ScanResults, Box<dyn std::error::Error>> {
 
-    pub async fn scan(
-        &self,
-        target: Target,
-    ) -> Result<ScanResult, EvlwareError> { 
-        let mut scan_result = ScanResult::new(target.clone());
-        let mut firewall_profile = None;
+    // step 1: firewall scan
+    let mut firewall_profile = None;
 
-        // step 1: firewall scan
-        if config.firewall_detection {
-            match FirewallDetector::new(
-                config.target.clone(),
-                config.firewall_timeout.as_millis() as u64,
-            ) {
-                Ok(firewall_detector) => {
-                    firewall_profile = Some(firewall_detector.detect().await);
-                },
-                Err(e) => {
-                    println!(
-                        "Error creating Firewall Detector: {}",
-                        e
-                    );
-                }
+    if config.firewall_detection {
+        match FirewallDetector::new(
+            config.target.clone(),
+            config.firewall_timeout.as_millis() as u64,
+        ) {
+            Ok(firewall_detector) => {
+                firewall_profile = Some(firewall_detector.detect().await);
+            },
+            Err(e) => {
+                println!("Error creating Firewall Detector: {}", e);
             }
         }
-
-        // step 2: port scan
-        let port_config = PortScanConfig {
-            target: config.target.clone(),
-            timeout: config.port_timeout,
-            port_range: config.port_range,
-            max_concurrent_scans: config.max_concurrent_port_scans,
-        };
-
-        let open_ports = port_scanner(&target).await?;
-
-        scan_result.add_open_ports(open_ports);
-
-        // step 3: subdomain enumeration
-        if let Target::Domain(domain) = &target {
-            let subdomains = self.subdomain_enumerator.enumerate(domain).await?;
-
-            scan_result.add_subdomains(subdomains);
-        }
-
-        // step 4: web crawling
-        let crawl_results = self.web_crawler.crawl(&target).await?;
-
-        scan_result.add_crawl_results(crawl_results);
-
-        // step 5: vulnerability scanning
-        let vulnerabilities = self.vuln_scanner.scan(&target, &crawl_results).await?;
-
-        scan_result.add_vulnerabilities(vulnerabilities);
-
-        Ok(ScanResults {
-            open_ports,
-            detected_services,
-            vulnerabilities,
-            fireall_profile,
-        })
     }
+
+    // step 2: scan ports
+    // let port_config = PortScanConfig {
+    //     target: target.clone(),
+    //     timeout: config.port_timeout,
+    //     port_range: config.port_range,
+    //     max_concurrent_scans: config.max_concurrent_port_scans,
+    // };
+    
+    // let port_results = scan_ports(&port_config).await;
+    // let open_ports: Vec<u16> = port_results
+    //     .iter()
+    //     .filter_map(|r| 
+    //         if r.state == PortState::Open {
+    //             Some(r.port)
+    //         } else {
+    //             None
+    //         })
+    //     .collect();
+
+    // step 3: enumerate subdomains
+
+    // step 4: web crawl
+
+    // step 5: vulnerability scan
+
+    let open_ports = Vec::new();
+    let detected_services = Vec::new();
+    let vulnerabilities = Vec::new();
+
+
+    Ok(ScanResults {
+        open_ports,
+        detected_services,
+        vulnerabilities,
+        firewall_profile,
+    })
 }

@@ -1,5 +1,5 @@
 #[allow(unused_variables)]
-pub async fn port_knocking(
+pub async fn detect_port_knocking(
     host: &str,
     port: u16, 
     timeout: Duration

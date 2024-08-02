@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use std::fmt;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct FirewallProfile {
@@ -43,6 +44,16 @@ pub enum FirewallStrength {
     Weak,
     Moderate,
     Strong,
+}
+
+impl fmt::Display for FirewallProfile {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "\n  TCP SYN Timing: {:?}", self.tcp_syn_timing)?;
+        write!(f, "\n  ICMP Response: {:?}", self.icmp_response)?;
+        write!(f, "\n  TCP Flag Behavior: {:?}", self.tcp_flag_behavior)?;
+        write!(f, "\n  Port Knocking Detected: {}", self.port_knocking)?;
+        write!(f, "\n  Application Layer Firewall: {:?}", self.application_layer)
+    }
 }
 
 impl FirewallProfile {

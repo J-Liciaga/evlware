@@ -25,7 +25,7 @@ impl SubdomainEnumerator {
 }
 
 impl Enumerator for SubdomainEnumerator {
-    fn enumerate(&self, target: &Target) -> Result<EnumerationResult, Error> {
+    async fn enumerate(&self, target: &Target) -> Result<EnumerationResult, Error> {
         let subdomains = vec![
             self.bruteforce_subdomains(target),
             self.check_certificate_transparency(target),

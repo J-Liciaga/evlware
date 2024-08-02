@@ -8,7 +8,7 @@ use config::{
 };
 use std::env;
 use std::str::FromStr;
-use crate::models::common::NoiseLevel;
+use crate::models::noise::NoiseLevel;
 
 #[derive(Debug, Deserialize)]
 pub struct Settings {
@@ -111,4 +111,3 @@ impl Settings {
         Ok(settings)
     }
 }
-

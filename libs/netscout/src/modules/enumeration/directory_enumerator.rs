@@ -20,7 +20,7 @@ impl DirectoryEnumerator {
 }
 
 impl Enumerator for DirectoryEnumerator {
-    fn enumerate(&self, target: &Target) -> Result<EnumerationResult, Error> {
+    async fn enumerate(&self, target: &Target) -> Result<EnumerationResult, Error> {
         let directories = self.bruteforce_directories(target).await?;
 
         Ok(EnumerationResult {

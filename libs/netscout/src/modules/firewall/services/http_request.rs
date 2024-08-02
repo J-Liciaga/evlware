@@ -1,5 +1,5 @@
 #[allow(unused_variables)]
-async fn send_http_request(
+pub async fn send_http_request(
     url: &Url, 
     timeout: Duration
 ) -> Result<String, std::io::Error> {

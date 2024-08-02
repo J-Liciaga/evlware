@@ -3,7 +3,7 @@ mod enumerate;
 mod report;
 mod scan;
 mod vulnerability;
-use crate::models::common::NoiseLevel;
+use crate::models::noise::NoiseLevel;
 use crate::config::Settings;
 
 use clap::{
