@@ -15,6 +15,7 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
+			"@evlgorgon/*": ["apps/evlgorgon/src/*"],
 			"@lucky-ui/*": ["libs/lucky-ui/src/*"]
 		}
 	},

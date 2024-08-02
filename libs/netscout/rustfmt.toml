@@ -1,0 +1,38 @@
+# Maximum width of each line
+max_width = 100
+
+# Use spaces instead of tabs
+hard_tabs = false
+
+# Width of tab characters
+tab_spaces = 4
+
+# Newline style (can be "Auto", "Native", "Unix" or "Windows")
+newline_style = "Unix"
+
+# How to format comments
+comment_width = 80
+
+# Break comments to fit on the line
+wrap_comments = true
+
+# Format code inside macros
+format_macro_matchers = true
+
+# Reorder impl items
+reorder_impl_items = true
+
+# Format string literals where necessary
+format_strings = true
+
+# Format doc comments
+format_code_in_doc_comments = true
+
+# If structure field is on the same line as struct
+struct_field_align_threshold = 20
+
+# Where to put the opening brace of items
+brace_style = "SameLineWhere"
+
+# Format match arms
+match_arm_blocks = true

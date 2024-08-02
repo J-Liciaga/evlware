@@ -1,7 +1,7 @@
 {
-	"name": "ml-models",
+	"name": "jarvis",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/ml-models/src",
+	"sourceRoot": "libs/jarvis/src",
 	"projectType": "library",
 	"tags": [],
 	"targets": {}

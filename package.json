@@ -1,14 +1,23 @@
 {
   "name": "@evlware/source",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "prepare": "husky",
+    "build:evlgorgon": "nx build evlgorgon",
     "build:netexploit": "nx build netexploit",
+    "build:prod:netexploit": "nx build-prod netexploit",
     "build:netscout": "nx build netscout",
+    "build:prod:netscout": "nx build netscout",
+    "check:netexploit": "nx check netexploit",
+    "check:netscout": "nx check netscout",
     "serve:roach": "nx run-ios evlroach",
     "serve:gorgon": "nx serve evlgorgon",
     "netscout:cli": "nx run netscout:run",
+    "netscout:cargo-docs": "nx cargo-docs netscout",
+    "netexploit:cli": "nx run netexploit:run",
+    "netexploit:cargo-docs": "nx cargo-docs netexploit",
     "workspace:test-builds": "nx affected -t build",
     "workspace:lint": "nx affected --target lint --parallel 3",
     "workspace:affected": "nx affected",
@@ -17,7 +26,6 @@
     "workspace:clean": "rimraf dist dev_containers tmp",
     "workspace:run-migrations": "yarn nx migrate latest && yarn nx migrate --run-migrations"
   },
-  "private": true,
   "dependencies": {
     "@expo/metro-config": "~0.18.1",
     "@expo/metro-runtime": "~3.2.1",

@@ -1,11 +1,17 @@
-use clap::{Command, Arg, ArgAction, ArgMatches};
-use std::time::Duration;
+use crate::config::Settings;
+use crate::core::scan::{EvlScannerConfig, scan};
+use crate::models::target::Target;
 use crate::models::results::ScanResults;
-use crate::core::scanners::evl_scan::{EVLScannerConfig, scan};
+use clap::{
+    Command,
+    Arg,
+    ArgAction,
+    ArgMatches,
+};
+use std::time::Duration;
 
 pub fn command() -> Command {
     Command::new("scan")
-        .about("Runs a full scan on the target.")
         .arg(
             Arg::new("target")
                 .short('t')
@@ -16,13 +22,13 @@ pub fn command() -> Command {
                 .help("Sets the target URL or IP address to scan")
         )
         .arg(
-            Arg::new("mode")
-                .short('m')
-                .long("mode")
-                .value_name("MODE")
+            Arg::new("noise")
+                .short('n')
+                .long("noise")
+                .value_name("NOISE")
                 .required(false)
                 .action(ArgAction::Set)
-                .help("Sets your scan mode: quiet, default, noisy, loud")
+                .help("Sets your scan mode: stealthy, moderate, aggressive")
         )
         .arg(
             Arg::new("start-port")
@@ -49,41 +55,45 @@ pub fn command() -> Command {
 }
 
 pub async fn execute(
-    matches: &ArgMatches
+    matches: &ArgMatches,
+    config: &Settings,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let target = matches.get_one::<String>("target").unwrap();
+    let target = Target::new(&target)?;
     let start_port: u16 = *matches.get_one::<u16>("start-port").unwrap();
     let end_port: u16 = *matches.get_one::<u16>("end-port").unwrap();
 
-    let default_mode = String::from("default");
-    let mode = matches.get_one::<String>("mode").unwrap_or(&default_mode);
-
-    println!(
-        "Scanning target: {}, From port: {} to {}, Mode: {}", 
-        target, 
-        start_port, 
-        end_port,
-        mode,
-    );
-
-    let config = EVLScannerConfig {
-        target: target.to_string(),
+    let config = EvlScannerConfig {
+        target: target.clone(),
+        noise: config.noise_level.clone(),
         port_range: (start_port, end_port),
         port_timeout: Duration::from_secs(1),
         web_timeout: Duration::from_secs(10),
         max_concurrent_port_scans: 100,
         max_concurrent_web_scans: 10,
-        mode: mode.to_string(),
+        firewall_detection: true,
+        firewall_timeout: Duration::from_secs(10),
     };
 
-    let scan_results = scan(&config).await?;
+    println!(
+        "Running a Full Scan on target: {:?}", 
+        target, 
+    );
 
+    let scan_results = scan(&config).await?;
+    
     print_scan_results(&scan_results);
 
-    Ok(()) 
+    Ok(())
 }
 
 fn print_scan_results(scan_results: &ScanResults) {
+    if let Some(firewall_profile) = &scan_results.firewall_profile {
+        println!("Firewall Detected: {}", firewall_profile);
+    } else {
+        println!("No firewall detected");
+    }
+
     if scan_results.open_ports.is_empty() {
         println!("No open ports found");
     } else {

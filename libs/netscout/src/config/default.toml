@@ -1,0 +1,21 @@
+debug = false
+threads = 4
+timeout = 30
+user_agent = "EVLWARE-Core/1.0"
+
+[network]
+port_scan_range = "1-1024"
+os_detection = true
+
+[web]
+max_depth = 3
+respect_robots_txt = true
+
+[enumeration]
+subdomain_wordlist = "wordlists/subdomains.txt"
+directory_wordlist = "wordlists/directories.txt"
+
+[vulnerability]
+sql_injection = true
+xss = true
+csrf = true
