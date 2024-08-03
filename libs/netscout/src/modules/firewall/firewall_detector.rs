@@ -53,7 +53,7 @@ impl FirewallDetector {
             tcp_syn_timing: self.tcp_syn_timing().await,
             icmp_response: self.icmp_probe().await,
             tcp_flag_behavior: self.tcp_flag_manipulation().await,
-            port_knocking: self.detect_port_knocking().await,
+            port_knocking: self.port_knocking().await,
             application_layer: self.application_layer_analysis().await,
         }
     }
@@ -97,14 +97,14 @@ impl FirewallDetector {
 
         if let Some(host) = self.target.host_str() {
             // Send SYN-FIN packet
-            if let Ok(_) = send_tcp_syn_fin(host, port, self.timeout).await {
-                TcpFlagBehavior::Unconventional
-            } else {
-                // Send NULL packet
-                if let Ok(_) = send_tcp_null(host, port, self.timeout).await {
-                    TcpFlagBehavior::Standard
-                } else {
-                    TcpFlagBehavior::Filtered
+            match send_tcp_syn_fin(host, port, self.timeout).await {
+                Ok(_) => TcpFlagBehavior::Unconventional,
+                Err(_) => {
+                    // Send NULL packet
+                    match send_tcp_null(host, port, self.timeout).await {
+                        Ok(_) => TcpFlagBehavior::Standard,
+                        Err(_) => TcpFlagBehavior::Filtered,
+                    }
                 }
             }
         } else {
@@ -112,7 +112,7 @@ impl FirewallDetector {
         }
     }
 
-    async fn detect_port_knocking(&self) -> bool {
+    async fn port_knocking(&self) -> bool {
         // Simplified port knocking detection
         let knock_sequence = vec![1234, 2345, 3456];
         
@@ -136,12 +136,10 @@ impl FirewallDetector {
             self.timeout,
         ).await {
             Ok(response) => {
-                // check status codes
                 if response.status_code == 403 || response.status_code == 406 {
                     return AppLayerFirewall::Advanced;
                 }
 
-                // check headers
                 if response.headers.iter().any(|(key, value)| {
                     key.to_lowercase().contains("waf") ||
                     value.to_lowercase().contains("waf")
@@ -149,7 +147,6 @@ impl FirewallDetector {
                     return AppLayerFirewall::Advanced;
                 }
 
-                // check body
                 if response.body.contains("WAF") || response.body.contains("Firewall") {
                     AppLayerFirewall::Advanced
                 } else if response.body.contains("403 Forbidden") {
