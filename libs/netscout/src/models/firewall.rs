@@ -37,6 +37,7 @@ pub enum AppLayerFirewall {
     None,
     Basic,
     Advanced,
+    Unknown,
 }
 
 #[derive(Debug)]
@@ -75,7 +76,7 @@ impl FirewallProfile {
         self.port_knocking ||
         matches!(
             self.application_layer,
-            AppLayerFirewall::Basic | AppLayerFirewall::Advanced
+            AppLayerFirewall::Basic | AppLayerFirewall::Advanced | AppLayerFirewall::Unknown
         )
     }
 
@@ -123,6 +124,7 @@ impl FirewallProfile {
             AppLayerFirewall::None => 0,
             AppLayerFirewall::Basic => 1,
             AppLayerFirewall::Advanced => 2,
+            AppLayerFirewall::Unknown => 3,
         };
 
         score

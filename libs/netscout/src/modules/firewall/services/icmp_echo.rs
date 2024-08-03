@@ -1,14 +1,34 @@
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
-use std::time::{Duration, Instant};
-use pnet::packet::icmp::echo_request::{MutableEchoRequestPacket, IcmpCodes};
-use pnet::packet::icmp::{IcmpTypes, IcmpPacket};
+use std::net::{
+    IpAddr, 
+    Ipv4Addr, 
+    Ipv6Addr
+};
+use std::time::{
+    Duration, 
+    Instant
+};
+use pnet::packet::icmp::echo_request::{
+    MutableEchoRequestPacket, 
+    IcmpCodes
+};
+use pnet::packet::icmp::{
+    IcmpTypes, 
+    IcmpPacket
+};
 use pnet::packet::icmpv6::Icmpv6Types;
 use pnet::packet::icmpv6::echo_request::MutableEchoRequestPacket as Icmpv6EchoRequestPacket;
 use pnet::packet::ip::IpNextHeaderProtocols;
 use pnet::packet::Packet;
-use pnet::transport::{icmp_packet_iter, transport_channel, icmpv6_packet_iter};
+use pnet::transport::{
+    icmp_packet_iter, 
+    transport_channel, 
+    icmpv6_packet_iter
+};
 use pnet::transport::TransportChannelType::Layer4;
-use pnet::transport::TransportProtocols::{Ipv4, Ipv6};
+use pnet::transport::TransportProtocols::{
+    Ipv4, 
+    Ipv6
+};
 
 /**
  * Description:
@@ -22,7 +42,8 @@ use pnet::transport::TransportProtocols::{Ipv4, Ipv6};
  * 
  * Notes:
  * 1. this fn requires root admin priviledges due to its use of raw sockets
- * 2. some systesm may block or filter ICMP traffic for security reasons, this test may not always be conclusive
+ * 2. some systems may block or filter ICMP traffic for security reasons, 
+ * this test may not always be conclusive
  */
 
  pub async fn send_icmp_echo(
@@ -54,7 +75,10 @@ async fn send_icmpv4_echo(
 
     let mut echo_packet = [0u8; 64];
     let mut echo_packet = MutableEchoRequestPacket::new(&mut echo_packet)
-        .ok_or_else(|| std::io::Error::new(std::io::ErrorKind::Other, "Failed to create echo packet"))?;
+        .ok_or_else(|| std::io::Error::new(
+            std::io::ErrorKind::Other, 
+            "Failed to create echo packet"
+        ))?;
 
     echo_packet.set_icmp_type(IcmpTypes::EchoRequest);
     echo_packet.set_icmp_code(IcmpCodes::NoCode);

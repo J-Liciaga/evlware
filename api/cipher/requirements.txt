@@ -1,0 +1,16 @@
+python-dotenv
+
+flask
+waitress
+requests
+
+pinecone-client
+langchain
+langchain-community
+
+cohere
+
+transformers
+torch
+
+boto3

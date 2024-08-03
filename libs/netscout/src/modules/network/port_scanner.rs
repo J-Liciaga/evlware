@@ -1,10 +1,16 @@
-use std::time::{Duration, Instant};
 use std::net::ToSocketAddrs;
 use std::sync::Arc;
 use tokio::sync::Semaphore;
 use tokio::net::TcpStream;
 use tokio::time::timeout;
-use futures::stream::{self, StreamExt};
+use futures::stream::{
+    self, 
+    StreamExt
+};
+use std::time::{
+    Duration, 
+    Instant
+};
 use crate::models::noise::NoiseLevel;
 
 #[derive(Debug, Clone)]

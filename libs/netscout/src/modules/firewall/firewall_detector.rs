@@ -5,6 +5,9 @@ use crate::models::firewall::{
     TcpFlagBehavior,
     AppLayerFirewall,
 };
+use crate::models::http_data::{
+    HttpResponse,
+};
 // use super::services::{
 //     send_http_request,
 //     send_icmp_echo,
@@ -18,6 +21,8 @@ use url::Url;
 use tokio::time::Duration;
 use tokio::net::TcpStream;
 use rand::Rng;
+use std::collections::HashMap;
+use reqwest::Client;
 
 pub struct FirewallDetector {
     target: Url,
@@ -132,15 +137,34 @@ impl FirewallDetector {
     }
 
     async fn application_layer_analysis(&self) -> AppLayerFirewall {
-        // Simplified application layer analysis
-        if let Ok(response) = send_http_request(&self.target, self.timeout).await {
-            if response.contains("WAF") || response.contains("Firewall") {
-                AppLayerFirewall::Advanced
-            } else {
-                AppLayerFirewall::Basic
+        match send_http_request(
+            &self.target,
+            self.timeout,
+        ).await {
+            Ok(response) => {
+                // check status codes
+                if response.status_code == 403 || response.status_code == 406 {
+                    return AppLayerFirewall::Advanced;
+                }
+
+                // check headers
+                if response.headers.iter().any(|key, value|) 
+                    key.to_lowercase().contains("waf") ||
+                    value.to_lowercase().contains("waf")
+                {
+                    return AppLayerFirewall::Advanced;
+                }
+
+                // check body
+                if response.body().contains("WAF") || response.body.contains("Firewall") {
+                    AppLayerFirewall::Advanced
+                } else if response.body.contains("403 Forbidden") {
+                    AppLayerFirewall::Basic
+                } else {
+                    AppLayerFirewall::None
+                }
             }
-        } else {
-            AppLayerFirewall::None
+            Err(_) => AppLayerFirewall::Unknown,
         }
     }
 }
@@ -185,9 +209,44 @@ async fn send_tcp_null(
 async fn send_http_request(
     url: &Url, 
     timeout: Duration
-) -> Result<String, std::io::Error> {
-    // Implement a basic HTTP request
-    Ok(String::new())
+) -> Result<HttpResponse, reqwest::Error> {
+    let client = Client::builder()
+        .timeout(timeout)
+        .build()?;
+
+    let response = client
+        .get(url.as_str())
+        .send()
+        .await?;
+
+    let status_code = response
+        .status()
+        .as_u16();
+
+    let headers = response
+        .headers()
+        .iter()
+        .map(|(name, value)| (
+                name
+                    .as_str()
+                    .to_owned(),
+                value
+                    .to_str()
+                    .unwrap_or("")
+                    .to_owned()
+            ),
+        )
+        .collect::<HashMap<String, String>>();
+
+    let body = response
+        .text()
+        .await?;
+
+    Ok(HttpResponse::new(
+        status_code,
+        headers,
+        body,
+    ))
 }
 
 #[allow(unused_variables)]

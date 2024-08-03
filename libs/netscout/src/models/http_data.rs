@@ -12,5 +12,19 @@ pub struct HttpRequest {
 pub struct HttpResponse {
     pub status_code: u16,
     pub headers: HashMap<String, String>,
-    pub body: Vec<u8>,
+    pub body: String,
+}
+
+impl HttpResponse {
+    pub fn new(
+        status_code: u16,
+        headers: HashMap<String, String>,
+        body: String
+    ) -> Self {
+        Self {
+            status_code,
+            headers,
+            body,
+        }
+    }
 }

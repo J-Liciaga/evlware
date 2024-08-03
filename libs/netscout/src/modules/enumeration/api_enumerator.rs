@@ -8,11 +8,16 @@ pub struct ApiEnumerator {
 }
 
 impl ApiEnumerator {
-    pub fn new(http_client: HttpClient) -> Self {
+    pub fn new(
+        http_client: HttpClient
+    ) -> Self {
         Self { http_client }
     }
 
-    async fn discover_api_endpoints(&self, target: &Target) -> Result<Vec<String>, Error> {
+    async fn discover_api_endpoints(
+        &self, 
+        target: &Target
+    ) -> Result<Vec<String>, Error> {
         // Implement API endpoint discovery logic here
         // This could involve analyzing JavaScript files, swagger docs, etc.
         todo!()
