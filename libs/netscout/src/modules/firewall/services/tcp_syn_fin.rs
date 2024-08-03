@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 #[allow(unused_variables)]
 pub async fn send_tcp_syn_fin(
     host: &str, 

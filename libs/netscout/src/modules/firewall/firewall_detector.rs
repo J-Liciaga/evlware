@@ -5,24 +5,18 @@ use crate::models::firewall::{
     TcpFlagBehavior,
     AppLayerFirewall,
 };
-use crate::models::http_data::{
-    HttpResponse,
+use super::services::{
+    send_http_request,
+    send_icmp_echo,
+    // detect_port_knocking,
+    send_tcp_null,
+    send_tcp_syn_fin,
+    send_tcp_syn,
 };
-// use super::services::{
-//     send_http_request,
-//     send_icmp_echo,
-//     detect_port_knocking,
-//     send_tcp_null,
-//     send_tcp_syn_fin,
-//     send_tcp_syn,
-// };
 use crate::models::Target;
 use url::Url;
-use tokio::time::Duration;
-use tokio::net::TcpStream;
 use rand::Rng;
-use std::collections::HashMap;
-use reqwest::Client;
+use std::time::Duration;
 
 pub struct FirewallDetector {
     target: Url,
@@ -148,15 +142,15 @@ impl FirewallDetector {
                 }
 
                 // check headers
-                if response.headers.iter().any(|key, value|) 
+                if response.headers.iter().any(|(key, value)| {
                     key.to_lowercase().contains("waf") ||
                     value.to_lowercase().contains("waf")
-                {
+                }) {
                     return AppLayerFirewall::Advanced;
                 }
 
                 // check body
-                if response.body().contains("WAF") || response.body.contains("Firewall") {
+                if response.body.contains("WAF") || response.body.contains("Firewall") {
                     AppLayerFirewall::Advanced
                 } else if response.body.contains("403 Forbidden") {
                     AppLayerFirewall::Basic
@@ -167,93 +161,4 @@ impl FirewallDetector {
             Err(_) => AppLayerFirewall::Unknown,
         }
     }
-}
-
-async fn send_tcp_syn(
-    host: &str, 
-    port: u16, 
-    timeout: Duration
-) -> Result<Duration, std::io::Error> {
-    let start = std::time::Instant::now();
-    let addr = format!("{}:{}", host, port);
-    let result = tokio::time::timeout(timeout, TcpStream::connect(&addr)).await;
-
-    match result {
-        Ok(Ok(_)) => Ok(start.elapsed()),
-        Ok(Err(e)) => Err(e),
-        Err(_) => Err(std::io::Error::new(std::io::ErrorKind::TimedOut, "Connection timed out"))
-    }
-}
-
-#[allow(unused_variables)]
-async fn send_tcp_syn_fin(
-    host: &str, 
-    port: u16, 
-    timeout: Duration
-) -> Result<(), std::io::Error> {
-    // Implement SYN-FIN packet sending
-    Ok(())
-}
-
-#[allow(unused_variables)]
-async fn send_tcp_null(
-    host: &str,
-    port: u16, 
-    timeout: Duration
-) -> Result<(), std::io::Error> {
-    // Implement NULL packet sending
-    Ok(())
-}
-
-#[allow(unused_variables)]
-async fn send_http_request(
-    url: &Url, 
-    timeout: Duration
-) -> Result<HttpResponse, reqwest::Error> {
-    let client = Client::builder()
-        .timeout(timeout)
-        .build()?;
-
-    let response = client
-        .get(url.as_str())
-        .send()
-        .await?;
-
-    let status_code = response
-        .status()
-        .as_u16();
-
-    let headers = response
-        .headers()
-        .iter()
-        .map(|(name, value)| (
-                name
-                    .as_str()
-                    .to_owned(),
-                value
-                    .to_str()
-                    .unwrap_or("")
-                    .to_owned()
-            ),
-        )
-        .collect::<HashMap<String, String>>();
-
-    let body = response
-        .text()
-        .await?;
-
-    Ok(HttpResponse::new(
-        status_code,
-        headers,
-        body,
-    ))
-}
-
-#[allow(unused_variables)]
-async fn send_icmp_echo(
-    host: &str, 
-    timeout: Duration
-) -> Result<Duration, std::io::Error> {
-    // Implement actual ICMP echo request
-    Ok(Duration::from_millis(50))
 }

@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 #[allow(unused_variables)]
 pub async fn detect_port_knocking(
     host: &str,
