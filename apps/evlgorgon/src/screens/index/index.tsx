@@ -1,3 +1,3 @@
-export default function IndexContents() {
-	return <div></div>;
-}
+import WelcomeChatDashboard from "./_welcome-chat-prompt";
+
+export { WelcomeChatDashboard };

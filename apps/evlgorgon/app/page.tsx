@@ -1,13 +1,15 @@
 "use client";
 
-const styles = {
-	container: "min-h-screen min-w-screen",
-} as const;
+import Sidebar from "@evlgorgon/core/components/navigation/sidebar";
+import { WelcomeChatDashboard } from "@evlgorgon/screens/index";
 
 export default function IndexPage() {
 	return (
 		<>
-			<div></div>
+			<Sidebar />
+			<div className="h-screen w-screen">
+				<WelcomeChatDashboard />
+			</div>
 		</>
 	);
 }
