@@ -13,9 +13,8 @@ import { Button } from "@lucky-ui/basic/button";
 import { IconUpload, IconSend } from "@tabler/icons-react";
 
 const styles = {
-	container: "h-full w-full | flex flex-1",
-	wrapper:
-		"h-full w-full | flex flex-col flex-1 gap-2 | py-20 pl-20 pr-6 | dark:bg-neutral-900",
+	container: "w-full | flex flex-1",
+	wrapper: "h-full w-full | flex flex-col flex-1 gap-2 | py-20 pl-20 pr-6",
 	card_container: "h-full w-full | flex justify-center items-center",
 	card_wrapper: "",
 	card_header: "",
@@ -28,14 +27,15 @@ export default function WelcomeChatDashboard() {
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
 				<div className={styles.card_container}>
-					<Card className="w-[60vw] | dark:bg-neutral-800 border-none rounded-3xl ">
+					<Card className="w-[60vw] | border-none rounded-3xl ">
 						<CardHeader className="flex justify-center items-center | text-white space-y-6">
 							<CardTitle className="flex flex-col justify-center items-center | space-y-4 ">
-								<div>EVLWARE</div>
-								<div>Name your target?</div>
+								{/* <div className="text-[3rem]">EVLWARE</div> */}
+								<div>Name your target</div>
 							</CardTitle>
 							<CardDescription>
-								Make sure you have permissions to attack
+								Make sure you have the adequate permissions
+								before you proceed
 							</CardDescription>
 						</CardHeader>
 						<CardContent className="w-full">
@@ -48,7 +48,7 @@ export default function WelcomeChatDashboard() {
 									<Button variant={"ghost"}>
 										<IconUpload />
 									</Button>
-									<Button className="bg-green-500 text-white">
+									<Button variant={"outline"}>
 										<IconSend />
 									</Button>
 								</div>

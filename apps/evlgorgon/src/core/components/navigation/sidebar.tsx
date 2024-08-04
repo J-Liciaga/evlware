@@ -17,7 +17,7 @@ import { Logo, LogoIcon } from "@evlgorgon/core/components/common/evlware-logo";
 
 const styles = {
 	container:
-		"fixed left-0 z-50 | h-screen max-w-7xl w-fit | flex flex-1 flex-col md:flex-row | bg-gray-100 dark:bg-neutral-800 | overflow-hidden",
+		"fixed left-0 z-50 | h-screen max-w-6xl w-fit | flex flex-1 flex-col md:flex-row | bg-gray-100 dark:bg-neutral-800 | overflow-hidden",
 } as const;
 
 const DEFAULT_LINKS = [

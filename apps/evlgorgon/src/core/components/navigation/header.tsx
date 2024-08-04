@@ -2,8 +2,8 @@
 
 export default function Header() {
 	return (
-		<aside>
+		<header>
 			<div></div>
-		</aside>
+		</header>
 	);
 }
