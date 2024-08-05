@@ -3,7 +3,7 @@ import { cn } from "../../utils";
 import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-// import { IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 
 interface Links {
 	label: string;
@@ -88,11 +88,11 @@ export const DesktopSidebar = ({
 	return (
 		<motion.div
 			className={cn(
-				"h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[275px] flex-shrink-0",
+				"h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[200px] flex-shrink-0",
 				className,
 			)}
 			animate={{
-				width: animate ? (open ? "275px" : "60px") : "300px",
+				width: animate ? (open ? "200px" : "60px") : "300px",
 			}}
 			onMouseEnter={() => setOpen(true)}
 			onMouseLeave={() => setOpen(false)}
@@ -117,10 +117,10 @@ export const MobileSidebar = ({
 			{...props}
 		>
 			<div className="flex justify-end z-20 w-full">
-				{/* <IconMenu2
-            className="text-neutral-800 dark:text-neutral-200"
-            onClick={() => setOpen(!open)}
-          /> */}
+				<IconMenu2
+					className="text-neutral-800 dark:text-neutral-200"
+					onClick={() => setOpen(!open)}
+				/>
 			</div>
 			<AnimatePresence>
 				{open && (
@@ -138,10 +138,10 @@ export const MobileSidebar = ({
 						)}
 					>
 						<div
-							className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
+							className="absolute right-10 top-10 z-50 text-white dark:text-neutral-200"
 							onClick={() => setOpen(!open)}
 						>
-							{/* <IconX /> */}
+							<IconX />
 						</div>
 						{children}
 					</motion.div>

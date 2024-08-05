@@ -105,7 +105,6 @@ impl Settings {
 
         let mut settings: Settings = config.try_deserialize()?;
 
-        // Set the extracted noise_level
         settings.noise_level = noise_level;
 
         Ok(settings)

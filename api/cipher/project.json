@@ -1,8 +1,0 @@
-{
-	"name": "cipher",
-	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "libs/cipher/src",
-	"projectType": "application",
-	"tags": [],
-	"targets": {}
-}

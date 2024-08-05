@@ -1,17 +1,20 @@
 # EVLWARE
 
 ```ascii
- ███████╗██╗   ██╗██╗     ██╗    ██╗ █████╗ ██████╗ ███████╗
- ██╔════╝██║   ██║██║     ██║    ██║██╔══██╗██╔══██╗██╔════╝
- █████╗  ██║   ██║██║     ██║ █╗ ██║███████║██████╔╝█████╗  
- ██╔══╝  ╚██╗ ██╔╝██║     ██║███╗██║██╔══██║██╔══██╗██╔══╝  
- ███████╗ ╚████╔╝ ███████╗╚███╔███╔╝██║  ██║██║  ██║███████╗
- ╚══════╝  ╚═══╝  ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-                                                            
-        AI-Powered Penetration Testing Framework
+        ███████╗██╗   ██╗██╗     ██╗    ██╗ █████╗ ██████╗ ███████╗
+        ██╔════╝██║   ██║██║     ██║    ██║██╔══██╗██╔══██╗██╔════╝
+        █████╗  ██║   ██║██║     ██║ █╗ ██║███████║██████╔╝█████╗  
+        ██╔══╝  ╚██╗ ██╔╝██║     ██║███╗██║██╔══██║██╔══██╗██╔══╝  
+        ███████╗ ╚████╔╝ ███████╗╚███╔███╔╝██║  ██║██║  ██║███████╗
+        ╚══════╝  ╚═══╝  ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
+                                                                    
+                AI-Powered Penetration Testing Framework
 ```
 
 EVLWARE is an advanced AI-driven penetration testing framework designed to revolutionize cybersecurity assessments. Leveraging cutting-edge machine learning techniques and a modern tech stack, EVLWARE automates and enhances various aspects of security testing, including vulnerability scanning, exploit generation, and social engineering simulations. Built on a scalable Nx monorepo architecture, it combines powerful AI models with robust security tools to provide comprehensive, adaptive, and intelligent security analysis. EVLWARE aims to stay ahead of emerging threats by continuously learning and evolving its testing methodologies, offering security professionals a state-of-the-art platform for identifying and addressing potential vulnerabilities in complex digital environments.
+
+## ⚠️ WARNING ⚠️
+> This project is under active development
 
 ## Directory Structure
 
@@ -20,20 +23,22 @@ evlware/
 ├── .github/                 # Github Actions CI/CD files
 ├── .docker/                 # Dockerfiles files
 ├── .husky/                  # Husky Git hooks
-├── api/                     # Golang backend
-├── apps/
+├── api/                     # Back-End
+    ├── hivemind/            # Golang - API Gateway                     
+    ├── cipher/              # Python3 - Llama LLM / Agent System
+├── apps/                    # Front-End
     └── evlroach/            # React-Native mobile app
     └── evlgorgon/           # Next.js web app
 ├── libs/
-    ├── jarvis/              # PyTorch/TensorFlow models
     ├── lucky-assets/        # Common UI assets
     ├── lucky-ui/            # UI component library
     ├── netexploit/          # Scapy, Wireshark integrations
     ├── netscout/            # OWASP ZAP, Metasploit integrations
     ├── reporting/           # Report generation and visualization
     └── toolshed/            # Common UI tools
+├── notebooks/               # Jupyter Notebooks focused on AI/ML tasks
+├── terraform/               # AWS IaC
 ├── tools/                   # Custom scripts and utilities
-
 ```
 
 ## ⚠️ USAGE WARNING ⚠️
