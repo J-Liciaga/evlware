@@ -9,41 +9,31 @@ use std::num::ParseIntError;
 pub enum EvlwareError {
     // IO errors
     Io(io::Error),
-    
     // Network errors
     NetworkConnection(String),
     HttpRequest(reqwest::Error),
-    
     // Parsing errors
     InvalidIpAddress(AddrParseError),
     InvalidPort(ParseIntError),
     InvalidUrl(url::ParseError),
-    
     // Scanning errors
     PortScanFailed(String),
     ServiceDetectionFailed(String),
-    
     // Web application errors
     CrawlFailed(String),
     FormAnalysisFailed(String),
-    
     // Enumeration errors
     SubdomainEnumerationFailed(String),
     DirectoryEnumerationFailed(String),
-    
     // Vulnerability scanning errors
     VulnerabilityScanFailed(String),
-    
     // Configuration errors
     ConfigParseError(String),
-    
     // Database errors
     DatabaseConnectionFailed(String),
     DatabaseQueryFailed(String),
-    
     // External library errors
     ExternalLibraryError(String),
-    
     // Generic errors
     UnexpectedError(String),
 }

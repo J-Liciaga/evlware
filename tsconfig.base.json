@@ -16,7 +16,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@evlgorgon/*": ["apps/evlgorgon/src/*"],
-			"@lucky-ui/*": ["libs/lucky-ui/src/*"]
+			"@lucky-ui/*": ["libs/lucky-ui/src/*"],
+			"@lucky-assets/*": ["libs/lucky-assets/src/*"],
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

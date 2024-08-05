@@ -58,8 +58,8 @@ pub async fn execute(
     matches: &ArgMatches,
     config: &Settings,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let target = matches.get_one::<String>("target").unwrap();
-    let target = Target::new(&target)?;
+    let target_arg = matches.get_one::<String>("target").unwrap();
+    let target = Target::new(&target_arg)?;
     let start_port: u16 = *matches.get_one::<u16>("start-port").unwrap();
     let end_port: u16 = *matches.get_one::<u16>("end-port").unwrap();
 
@@ -77,7 +77,7 @@ pub async fn execute(
 
     println!(
         "Running a Full Scan on target: {:?}", 
-        target, 
+        target_arg, 
     );
 
     let scan_results = scan(&config).await?;

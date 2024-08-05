@@ -5,19 +5,18 @@ use crate::models::firewall::{
     TcpFlagBehavior,
     AppLayerFirewall,
 };
-// use super::services::{
-//     send_http_request,
-//     send_icmp_echo,
-//     detect_port_knocking,
-//     send_tcp_null,
-//     send_tcp_syn_fin,
-//     send_tcp_syn,
-// };
+use super::services::{
+    send_http_request,
+    send_icmp_echo,
+    // detect_port_knocking,
+    send_tcp_null,
+    send_tcp_syn_fin,
+    send_tcp_syn,
+};
 use crate::models::Target;
 use url::Url;
-use tokio::time::Duration;
-use tokio::net::TcpStream;
 use rand::Rng;
+use std::time::Duration;
 
 pub struct FirewallDetector {
     target: Url,
@@ -54,7 +53,7 @@ impl FirewallDetector {
             tcp_syn_timing: self.tcp_syn_timing().await,
             icmp_response: self.icmp_probe().await,
             tcp_flag_behavior: self.tcp_flag_manipulation().await,
-            port_knocking: self.detect_port_knocking().await,
+            port_knocking: self.port_knocking().await,
             application_layer: self.application_layer_analysis().await,
         }
     }
@@ -98,14 +97,14 @@ impl FirewallDetector {
 
         if let Some(host) = self.target.host_str() {
             // Send SYN-FIN packet
-            if let Ok(_) = send_tcp_syn_fin(host, port, self.timeout).await {
-                TcpFlagBehavior::Unconventional
-            } else {
-                // Send NULL packet
-                if let Ok(_) = send_tcp_null(host, port, self.timeout).await {
-                    TcpFlagBehavior::Standard
-                } else {
-                    TcpFlagBehavior::Filtered
+            match send_tcp_syn_fin(host, port, self.timeout).await {
+                Ok(_) => TcpFlagBehavior::Unconventional,
+                Err(_) => {
+                    // Send NULL packet
+                    match send_tcp_null(host, port, self.timeout).await {
+                        Ok(_) => TcpFlagBehavior::Standard,
+                        Err(_) => TcpFlagBehavior::Filtered,
+                    }
                 }
             }
         } else {
@@ -113,7 +112,7 @@ impl FirewallDetector {
         }
     }
 
-    async fn detect_port_knocking(&self) -> bool {
+    async fn port_knocking(&self) -> bool {
         // Simplified port knocking detection
         let knock_sequence = vec![1234, 2345, 3456];
         
@@ -132,69 +131,31 @@ impl FirewallDetector {
     }
 
     async fn application_layer_analysis(&self) -> AppLayerFirewall {
-        // Simplified application layer analysis
-        if let Ok(response) = send_http_request(&self.target, self.timeout).await {
-            if response.contains("WAF") || response.contains("Firewall") {
-                AppLayerFirewall::Advanced
-            } else {
-                AppLayerFirewall::Basic
+        match send_http_request(
+            &self.target,
+            self.timeout,
+        ).await {
+            Ok(response) => {
+                if response.status_code == 403 || response.status_code == 406 {
+                    return AppLayerFirewall::Advanced;
+                }
+
+                if response.headers.iter().any(|(key, value)| {
+                    key.to_lowercase().contains("waf") ||
+                    value.to_lowercase().contains("waf")
+                }) {
+                    return AppLayerFirewall::Advanced;
+                }
+
+                if response.body.contains("WAF") || response.body.contains("Firewall") {
+                    AppLayerFirewall::Advanced
+                } else if response.body.contains("403 Forbidden") {
+                    AppLayerFirewall::Basic
+                } else {
+                    AppLayerFirewall::None
+                }
             }
-        } else {
-            AppLayerFirewall::None
+            Err(_) => AppLayerFirewall::Unknown,
         }
     }
-}
-
-async fn send_tcp_syn(
-    host: &str, 
-    port: u16, 
-    timeout: Duration
-) -> Result<Duration, std::io::Error> {
-    let start = std::time::Instant::now();
-    let addr = format!("{}:{}", host, port);
-    let result = tokio::time::timeout(timeout, TcpStream::connect(&addr)).await;
-
-    match result {
-        Ok(Ok(_)) => Ok(start.elapsed()),
-        Ok(Err(e)) => Err(e),
-        Err(_) => Err(std::io::Error::new(std::io::ErrorKind::TimedOut, "Connection timed out"))
-    }
-}
-
-#[allow(unused_variables)]
-async fn send_tcp_syn_fin(
-    host: &str, 
-    port: u16, 
-    timeout: Duration
-) -> Result<(), std::io::Error> {
-    // Implement SYN-FIN packet sending
-    Ok(())
-}
-
-#[allow(unused_variables)]
-async fn send_tcp_null(
-    host: &str,
-    port: u16, 
-    timeout: Duration
-) -> Result<(), std::io::Error> {
-    // Implement NULL packet sending
-    Ok(())
-}
-
-#[allow(unused_variables)]
-async fn send_http_request(
-    url: &Url, 
-    timeout: Duration
-) -> Result<String, std::io::Error> {
-    // Implement a basic HTTP request
-    Ok(String::new())
-}
-
-#[allow(unused_variables)]
-async fn send_icmp_echo(
-    host: &str, 
-    timeout: Duration
-) -> Result<Duration, std::io::Error> {
-    // Implement actual ICMP echo request
-    Ok(Duration::from_millis(50))
 }

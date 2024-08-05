@@ -1,31 +1,19 @@
 "use client";
 
-import {
-	PublicFooter,
-	PublicHeader,
-} from "@evlgorgon/core/components/navigation/public";
-import {
-	HeroSection,
-	FeaturesSection,
-	ServicesSection,
-	RoadmapSection,
-} from "@evlgorgon/screens/index";
-
-const styles = {
-	container: "min-h-screen min-w-screen",
-} as const;
+import Footer from "@evlgorgon/core/components/navigation/footer";
+import { Help } from "@evlgorgon/core/components/navigation/help";
+import Sidebar from "@evlgorgon/core/components/navigation/sidebar";
+import { WelcomeChatDashboard } from "@evlgorgon/screens/index";
 
 export default function IndexPage() {
 	return (
 		<>
-			<PublicHeader />
-			<div className={styles.container}>
-				<HeroSection />
-				<FeaturesSection />
-				<ServicesSection />
-				<RoadmapSection />
+			<Sidebar />
+			<div className="h-screen w-screen | flex flex-col justify-between | py-4 | dark:bg-neutral-900">
+				<WelcomeChatDashboard />
+				<Footer />
 			</div>
-			<PublicFooter />
+			<Help />
 		</>
 	);
 }
