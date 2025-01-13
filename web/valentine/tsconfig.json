@@ -27,8 +27,8 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "../../apps/marketing/.next/types/**/*.ts",
-    "../../dist/apps/marketing/.next/types/**/*.ts",
+    "../../web/valentine/.next/types/**/*.ts",
+    "../../dist/web/valentine/.next/types/**/*.ts",
     "next-env.d.ts"
   ],
   "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]

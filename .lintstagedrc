@@ -1,0 +1,14 @@
+{
+    "api/**/*.{js,ts,tsx,json,css}": [
+        "prettier --write"
+    ],
+    "apps/**/*.{js,ts,tsx,json,css}": [
+        "prettier --write"
+    ],
+    "bots/**/*.{js,ts,tsx,json,css}": [
+        "prettier --write"
+    ],
+    "libs/**/*.{js,ts,tsx,json,css}": [
+        "prettier --write"
+    ]
+}

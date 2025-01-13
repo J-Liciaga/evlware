@@ -1,0 +1,10 @@
+{
+  "name": "valentine-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "web/valentine-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["valentine"],
+  "// targets": "to see all targets run: nx show project valentine-e2e --web",
+  "targets": {}
+}

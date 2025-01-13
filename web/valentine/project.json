@@ -1,9 +1,9 @@
 {
-  "name": "marketing",
+  "name": "valentine",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/marketing",
+  "sourceRoot": "web/valentine",
   "projectType": "application",
   "tags": [],
-  "// targets": "to see all targets run: nx show project marketing --web",
+  "// targets": "to see all targets run: nx show project valentine --web",
   "targets": {}
 }
